@@ -58,7 +58,7 @@ set dsp.ao.wav_counter=1
 set dsp.ao.wav_dir=/home/pop-os
 set dsp.jack.resampling_quality=2
 set dsp.jack.server_name=
-set follow=false
+set follow=true
 set format_current= %a - %l -%3n. %t%= %y 
 set format_playlist= %-21%a %3n. %t%= %y %d %{?X!=0?%3X ?    }
 set format_playlist_va= %-21%A %3n. %t (%a)%= %y %d %{?X!=0?%3X ?    }
@@ -116,7 +116,7 @@ set smart_artist_sort=true
 set softvol=false
 set softvol_state=0 0
 set start_view=tree
-set status_display_program=/home/pop-os/cmus-artist-title.sh
+set status_display_program=/home/pop-os/.cmus/artist-title.sh
 set stop_after_queue=false
 set time_show_leading_zero=true
 set tree_width_max=0

@@ -50,6 +50,7 @@ nmap <silent> <Leader>4 :TestSuite<CR>
 map <Leader>o :call openai#Complete()<CR>
 
 call plug#begin()
+Plug 'azadkuh/vim-cmus'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
