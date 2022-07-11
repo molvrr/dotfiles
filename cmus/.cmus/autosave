@@ -47,7 +47,6 @@ set color_win_title_bg=blue
 set color_win_title_fg=white
 set confirm_run=true
 set continue=true
-set continue_album=true
 set device=/dev/cdrom
 set display_artist_sort_name=false
 set dsp.alsa.device=
@@ -116,11 +115,8 @@ set smart_artist_sort=true
 set softvol=false
 set softvol_state=0 0
 set start_view=tree
-set status_display_program=/home/pop-os/.cmus/artist-title.sh
-set stop_after_queue=false
+set status_display_program=/home/illfate/.cmus/artist-title.sh
 set time_show_leading_zero=true
-set tree_width_max=0
-set tree_width_percent=33
 set wrap_search=true
 bind browser backspace browser-up
 bind browser i toggle show_hidden
@@ -181,14 +177,9 @@ bind common k win-up
 bind common l seek +5
 bind common left seek -5
 bind common m toggle aaa_mode
-bind common mlb_click_bar player-pause
 bind common mlb_click_selected win-activate
 bind common mouse_scroll_down win-down
-bind common mouse_scroll_down_bar seek -5
-bind common mouse_scroll_down_title right-view
 bind common mouse_scroll_up win-up
-bind common mouse_scroll_up_bar seek +5
-bind common mouse_scroll_up_title left-view
 bind common n search-next
 bind common o toggle play_sorted
 bind common p win-mv-after

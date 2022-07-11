@@ -26,23 +26,23 @@ let g:mapleader = ' '
 let g:gitblame_enabled = 1
 let g:gitblame_date_format = '%d/%m/%y %H:%M'
 let g:codi#virtual_text = 0
+
 augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
+au!
+au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+au WinLeave * setlocal nocursorline
 augroup END
 
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent><C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
-nmap <leader>ff <cmd>Telescope find_files<cr>
-nmap <leader>fg <cmd>Telescope live_grep<cr>
-nmap <leader>fb <cmd>Telescope buffers<cr>
-nmap <leader>w <cmd>HopWord<cr>
-nmap <leader>l <cmd>HopLine<cr>
-nmap <leader>s <cmd>Codi javascript<cr>
-nnoremap Q <nop>
-nnoremap q: <nop>
-tnoremap <Esc> <C-\><C-n>
+nmap <Leader>h <cmd>UndotreeShow<cr>
+nmap <Leader>ff <cmd>Telescope find_files<cr>
+nmap <Leader>fg <cmd>Telescope live_grep<cr>
+nmap <Leader>fb <cmd>Telescope buffers<cr>
+nmap <Leader>w <cmd>HopWord<cr>
+nmap <Leader>l <cmd>HopLine<cr>
+nmap <Leader>s <cmd>Codi javascript<cr>
+nnoremap <silent> Q <nop>
 nmap <silent> <Leader>1 :TestFile<CR>
 nmap <silent> <Leader>2 :TestNearest<CR>
 nmap <silent> <Leader>3 :TestLast<CR>
@@ -57,49 +57,52 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'hrsh7th/nvim-cmp'
-Plug 'L3MON4D3/LuaSnip'
-Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'neovim/nvim-lspconfig'
 Plug 'morhetz/gruvbox'
 Plug 'sbdchd/neoformat'
-Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
 Plug 'mattn/emmet-vim'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'onsails/lspkind-nvim'
-Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'glepnir/lspsaga.nvim'
 Plug 'ThePrimeAgen/harpoon'
 Plug 'windwp/nvim-autopairs'
 Plug 'ThePrimeAgen/vim-be-good'
 Plug 'leafo/moonscript-vim'
 Plug 'johngrib/vim-game-code-break'
 Plug 'johngrib/vim-game-snake'
-Plug 'tpope/vim-rails'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'f-person/git-blame.nvim'
 Plug 'metakirby5/codi.vim'
 Plug 'phaazon/hop.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-test/vim-test'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-fugitive'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
 
 " DESATIVADOS
+"Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
+"Plug 'nvim-lua/lsp_extensions.nvim'
 "Plug 'navarasu/onedark.nvim'
 "Plug 'github/copilot.vim'
 "Plug 'thoughtbot/vim-rspec'
 "Plug 'akinsho/bufferline.nvim'
 "Plug 'rmagatti/auto-session'
 "Plug 'vim-airline/vim-airline-themes'
-"Plug 'saadparwaiz1/cmp_luasnip'
+"Plug 'hrsh7th/vim-vsnip'
 call plug#end()
 
 lua << EOF
+require('luasnip.loaders.from_vscode').lazy_load()
 require('hop').setup()
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  },
-}
+require('nvim-treesitter.configs').setup({ 
+  highlight = { enable = true },
+  incremental_selection = { enable = true },
+  textobjects = { enable = true },
+  additional_vim_regex_highlighting = false,
+})
 local opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -113,9 +116,47 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 end
 
+local cmp = require('cmp')
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<ESC>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+    { name = 'buffer' }
+  })
+})
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'nimls', 'ocamllsp'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
+    capabilities = capabilities,
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
@@ -123,6 +164,25 @@ for _, lsp in pairs(servers) do
   }
 end
 require('nvim-autopairs').setup{}
-EOF
+require('telescope').setup({
+  defaults = {
+      file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+      grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+    },
+  extensions = {
+      fzy_native = {
+        override_generic_sorter = false,
+        override_file_sorter = true,
+        }
+    }
+})
 
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  update_in_insert = true,
+  severity_sort = true
+})
+
+EOF
 runtime openai.vim
