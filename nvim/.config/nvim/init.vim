@@ -19,6 +19,7 @@ set listchars=space:·
 set list
 set so=5
 set nohlsearch
+autocmd FileType * set formatoptions-=cro
 
 let g:python3_host_prog = '/home/illfate/.pyenv/versions/nvim/bin/python'
 let g:ruby_host_prog = '/home/illfate/.asdf/installs/ruby/3.1.1/bin/ruby'
