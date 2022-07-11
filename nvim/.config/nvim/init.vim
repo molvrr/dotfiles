@@ -83,6 +83,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
+Plug '~/misc/neovim-plugins/cmusp.nvim/'
 
 " DESATIVADOS
 "Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
@@ -97,6 +98,7 @@ Plug 'rafamadriz/friendly-snippets'
 call plug#end()
 
 lua << EOF
+require('globals')
 require('luasnip.loaders.from_vscode').lazy_load()
 require('hop').setup()
 require('nvim-treesitter.configs').setup({ 
@@ -171,6 +173,31 @@ for _, lsp in pairs(servers) do
     },
   }
 end
+
+require('lspconfig').sumneko_lua.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  flags = {
+      debounce_text_changes = 150,
+    },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        },
+      diagnostics = {
+        globals = {'vim'}
+        },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        },
+      telemetry = {
+        enable = false,
+        }
+    }
+  }
+})
+
 require('nvim-autopairs').setup{}
 require('telescope').setup({
   defaults = {
