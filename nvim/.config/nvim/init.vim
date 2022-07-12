@@ -7,6 +7,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set smartindent
+set autoindent
 set nu
 set rnu
 set clipboard^=unnamed,unnamedplus
@@ -19,6 +20,9 @@ set listchars=space:·
 set list
 set so=5
 set nohlsearch
+set noswapfile
+set nobackup
+set nowb
 autocmd FileType * set formatoptions-=cro
 
 let g:python3_host_prog = '/home/illfate/.pyenv/versions/nvim/bin/python'
@@ -34,8 +38,10 @@ au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
 au WinLeave * setlocal nocursorline
 augroup END
 
-nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent><C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap <silent> Q <nop>
+nnoremap <silent><Leader>a :lua require("harpoon.mark").add_file()<CR>
+
 nmap <Leader>h <cmd>UndotreeShow<cr>
 nmap <Leader>ff <cmd>Telescope find_files<cr>
 nmap <Leader>fg <cmd>Telescope live_grep<cr>
@@ -43,14 +49,28 @@ nmap <Leader>fb <cmd>Telescope buffers<cr>
 nmap <Leader>w <cmd>HopWord<cr>
 nmap <Leader>l <cmd>HopLine<cr>
 nmap <Leader>s <cmd>Codi javascript<cr>
-nnoremap <silent> Q <nop>
 nmap <silent> <Leader>1 :TestFile<CR>
 nmap <silent> <Leader>2 :TestNearest<CR>
 nmap <silent> <Leader>3 :TestLast<CR>
 nmap <silent> <Leader>4 :TestSuite<CR>
-map <Leader>o :call openai#Complete()<CR>
+nmap <Leader><Leader>x :call Save_and_exec()<CR>
+
+function! Save_and_exec() abort
+    if &filetype == 'vim'
+      :silent! write
+      :source %
+    elseif &filetype == 'lua'
+      :silent! write
+      :luafile %
+    endif
+
+    return
+endfunction
 
 call plug#begin()
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'tjdevries/gruvbuddy.nvim'
+Plug 'tjdevries/train.nvim'
 Plug 'azadkuh/vim-cmus'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -84,6 +104,7 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug '~/misc/neovim-plugins/cmusp.nvim/'
+Plug '~/misc/neovim-plugins/dock.nvim/'
 
 " DESATIVADOS
 "Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
@@ -163,7 +184,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'sorbet'}
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
@@ -178,7 +199,7 @@ require('lspconfig').sumneko_lua.setup({
   capabilities = capabilities,
   on_attach = on_attach,
   flags = {
-      debounce_text_changes = 150,
+    debounce_text_changes = 150,
     },
   settings = {
     Lua = {
@@ -194,30 +215,27 @@ require('lspconfig').sumneko_lua.setup({
       telemetry = {
         enable = false,
         }
+      }
     }
-  }
 })
 
 require('nvim-autopairs').setup{}
 require('telescope').setup({
   defaults = {
-      file_previewer = require('telescope.previewers').vim_buffer_cat.new,
-      grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
     },
   extensions = {
-      fzy_native = {
-        override_generic_sorter = false,
-        override_file_sorter = true,
-        }
+    fzy_native = {
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      }
     }
 })
 
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,
-  update_in_insert = true,
   severity_sort = true
 })
-
 EOF
-runtime openai.vim
