@@ -1,0 +1,115 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.007  000.007: --- NVIM STARTING ---
+000.303  000.296: locale set
+000.545  000.242: inits 1
+000.554  000.009: window checked
+000.557  000.002: parsing arguments
+002.529  001.972: expanding arguments
+002.548  000.019: inits 2
+002.917  000.369: init highlight
+002.919  000.002: waiting for UI
+003.654  000.735: done waiting for UI
+003.712  000.058: init screen for UI
+003.729  000.018: init default mappings
+003.766  000.036: init default autocommands
+004.734  000.055  000.055: sourcing /squashfs-root/usr/share/nvim/runtime/ftplugin.vim
+004.954  000.036  000.036: sourcing /squashfs-root/usr/share/nvim/runtime/indent.vim
+027.110  022.086  022.086: sourcing /home/illfate/.config/nvim/init.lua
+027.123  001.181: sourcing vimrc file(s)
+027.483  000.046  000.046: sourcing /squashfs-root/usr/share/nvim/runtime/filetype.lua
+033.250  000.019  000.019: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/LuaSnip/ftdetect/snippets.vim
+033.413  000.030  000.030: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/moonscript-vim/ftdetect/moon.vim
+033.541  000.010  000.010: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-fugitive/ftdetect/fugitive.vim
+033.886  006.386  006.327: sourcing /squashfs-root/usr/share/nvim/runtime/filetype.vim
+034.196  000.093  000.093: sourcing /squashfs-root/usr/share/nvim/runtime/syntax/synload.vim
+034.331  000.387  000.293: sourcing /squashfs-root/usr/share/nvim/runtime/syntax/syntax.vim
+035.325  000.270  000.270: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/gzip.vim
+035.353  000.010  000.010: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/health.vim
+035.453  000.089  000.089: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/man.vim
+035.844  000.176  000.176: sourcing /squashfs-root/usr/share/nvim/runtime/pack/dist/opt/matchit/plugin/matchit.vim
+035.917  000.450  000.274: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/matchit.vim
+036.051  000.121  000.121: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/matchparen.vim
+036.464  000.398  000.398: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/netrwPlugin.vim
+036.621  000.009  000.009: sourcing /home/illfate/.local/share/nvim/rplugin.vim
+036.627  000.129  000.120: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/rplugin.vim
+036.734  000.089  000.089: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/shada.vim
+036.777  000.021  000.021: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/spellfile.vim
+036.917  000.122  000.122: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/tarPlugin.vim
+037.004  000.066  000.066: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/tohtml.vim
+037.039  000.015  000.015: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/tutor.vim
+037.232  000.178  000.178: sourcing /squashfs-root/usr/share/nvim/runtime/plugin/zipPlugin.vim
+037.573  000.262  000.262: sourcing /home/illfate/.config/nvim/plugin/packer_compiled.lua
+037.726  001.564: loading rtp plugins
+045.083  006.981  006.981: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/LuaSnip/plugin/luasnip.vim
+045.398  000.090  000.090: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/codi.vim/plugin/codi.vim
+047.173  001.626  001.626: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/emmet-vim/plugin/emmet.vim
+048.195  000.889  000.889: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/git-blame.nvim/plugin/gitblame.vim
+048.389  000.057  000.057: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/harpoon/plugin/mark.vim
+048.664  000.197  000.197: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/hop.nvim/plugin/hop.vim
+048.850  000.075  000.075: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/neoformat/plugin/neoformat.vim
+049.565  000.569  000.569: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/nvim-cmp/plugin/cmp.lua
+049.729  000.090  000.090: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/nvim-lspconfig/plugin/lspconfig.vim
+052.602  002.711  002.711: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/nvim-treesitter/plugin/nvim-treesitter.lua
+052.752  000.039  000.039: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/plenary.nvim/plugin/plenary.vim
+053.309  000.407  000.407: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/telescope.nvim/plugin/telescope.lua
+053.583  000.067  000.067: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/train.nvim/autoload/train/builtin.vim
+053.644  000.257  000.190: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/train.nvim/plugin/train.vim
+053.873  000.120  000.120: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/undotree/plugin/undotree.vim
+054.335  000.086  000.086: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/init.vim
+055.128  000.367  000.367: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/parts.vim
+055.395  000.014  000.014: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/formatter/short_path.vim
+056.449  000.127  000.127: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/util.vim
+056.519  002.549  001.954: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/plugin/airline.vim
+056.769  000.094  000.094: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-be-good/plugin/vim-be-good.vim
+056.933  000.067  000.067: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-cmus/plugin/cmus.vim
+058.011  000.991  000.991: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-fugitive/plugin/fugitive.vim
+058.180  000.015  000.015: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-game-code-break/plugin/vim-game-code-break.vim
+058.379  000.114  000.114: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-game-snake/plugin/vim-game-snake.vim
+058.960  000.479  000.479: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-rails/plugin/rails.vim
+059.410  000.111  000.111: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-test/autoload/test.vim
+060.159  001.086  000.976: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-test/plugin/test.vim
+060.287  003.057: loading packages
+060.950  000.488  000.488: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/cmp-buffer/after/plugin/cmp_buffer.lua
+061.100  000.083  000.083: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp/after/plugin/cmp_nvim_lsp.lua
+061.406  000.245  000.245: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/cmp-path/after/plugin/cmp_path.lua
+061.776  000.307  000.307: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/cmp_luasnip/after/plugin/cmp_luasnip.lua
+061.797  000.388: loading after plugins
+061.809  000.012: inits 3
+065.311  003.502: reading ShaDa
+068.146  000.284  000.284: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions.vim
+068.384  000.052  000.052: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/quickfix.vim
+068.656  000.139  000.139: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline.vim
+068.910  000.030  000.030: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/netrw.vim
+069.330  000.069  000.069: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/section.vim
+069.694  000.153  000.153: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/highlighter.vim
+069.945  000.854  000.632: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/term.vim
+070.187  000.025  000.025: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/undotree.vim
+070.664  000.158  000.158: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/branch.vim
+070.927  000.049  000.049: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/fugitiveline.vim
+071.205  000.045  000.045: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/nvimlsp.vim
+071.515  000.094  000.094: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/whitespace.vim
+071.958  000.050  000.050: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/po.vim
+072.199  000.069  000.069: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/wordcount.vim
+072.463  000.026  000.026: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/keymap.vim
+072.829  000.034  000.034: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/searchcount.vim
+078.688  000.047  000.047: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/themes.vim
+078.992  000.500  000.453: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/themes/dark.vim
+094.815  000.110  000.110: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/builder.vim
+095.255  000.066  000.066: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/vim-airline/autoload/airline/extensions/default.vim
+107.470  039.573: opening buffers
+107.515  000.045: BufEnter autocommands
+107.519  000.004: editing files in windows
+115.437  007.812  007.812: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/gruvbox/colors/gruvbox.vim
+118.060  001.384  001.384: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/gruvbox/autoload/airline/themes/gruvbox.vim
+119.501  002.933  001.550: sourcing /home/illfate/.local/share/nvim/site/pack/packer/start/gruvbox/autoload/airline/themes/gruvbox.vim
+182.363  064.099: VimEnter autocommands
+182.370  000.007: UIEnter autocommands
+692.252  509.693  509.693: sourcing /squashfs-root/usr/share/nvim/runtime/autoload/provider/clipboard.vim
+692.275  000.212: before starting main loop
+696.158  003.883: first screen update
+696.162  000.004: --- NVIM STARTED ---
