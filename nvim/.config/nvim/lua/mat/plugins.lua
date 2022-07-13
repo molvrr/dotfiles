@@ -18,12 +18,31 @@ return require('packer').startup(function(use)
           override_generic_sorter = false,
           override_file_sorter = true,
           }
+        },
+      pickers = {
+        find_files = {
+          mappings = {
+            n = {
+              ["cd"] = function(prompt_bufnr)
+                local selection = require("telescope.actions.state").get_selected_entry()
+                local dir = vim.fn.fnamemodify(selection.path, ":p:h")
+                require("telescope.actions").close(prompt_bufnr)
+                -- Depending on what you want put `cd`, `lcd`, `tcd`
+                vim.cmd(string.format("silent lcd %s", dir))
+              end
+            }
+          }
         }
+      }
     })
   end}
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
+  use {'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup({})
+  end}
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -33,12 +52,8 @@ return require('packer').startup(function(use)
   use 'morhetz/gruvbox'
   use 'sbdchd/neoformat'
   use 'mbbill/undotree'
-  use 'mattn/emmet-vim'
+  use {'mattn/emmet-vim', ft = { 'html' } }
   use 'ThePrimeAgen/harpoon'
-  use {'windwp/nvim-autopairs',
-    setup = function()
-      require('nvim-autopairs').setup({})
-  end}
   use 'ThePrimeAgen/vim-be-good'
   use 'leafo/moonscript-vim'
   use 'johngrib/vim-game-code-break'
