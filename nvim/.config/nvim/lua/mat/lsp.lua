@@ -95,11 +95,3 @@ require('lspconfig').sumneko_lua.setup({
     }
 })
 
-require('nvim-treesitter.configs').setup({
-  indent = { enable = true },
-  auto_install = true,
-  highlight = { enable = true,
-                additional_vim_regex_highlighting = false },
-  incremental_selection = { enable = true },
-  textobjects = { enable = true },
-})

@@ -9,21 +9,22 @@ require('mat.keymapping')
 require('mat.options')
 require('mat.plugins')
 require('mat.lsp')
-require('luasnip.loaders.from_vscode').lazy_load()
-require('hop').setup()
 
 local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
 
-autocmd('vimenter', { pattern = '*', command = 'colorscheme gruvbox', nested = true })
+--autocmd('vimenter', { pattern = '*', command = 'colorscheme gruvbox', nested = true })
 autocmd('FileType', { pattern = '*', command = 'set formatoptions-=cro' })
 autocmd({'BufEnter', 'BufLeave'}, { pattern = '*.md', command = 'set spell', nested = true })
-vim.cmd([[
-  augroup CursorLine
-    au!
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
-  augroup END
-]])
+
+local cursor_line_group = vim.api.nvim_create_augroup('PUTA', { clear = true })
+vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, { pattern = '*', command = 'setlocal cursorline', group = cursor_line_group })
+vim.api.nvim_create_autocmd('WinLeave', { pattern = '*', command = 'setlocal nocursorline', group = cursor_line_group })
+
+local packer_group = vim.api.nvim_create_augroup('packer_user_config', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'plugins.lua', command = 'source <afile> | PackerCompile', group = packer_group })
+
+local keymap_group = vim.api.nvim_create_augroup('keymappings', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'keymapping.lua', command = 'source <afile>', group = keymap_group })
 
