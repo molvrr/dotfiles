@@ -5,8 +5,10 @@ vim.g.gitblame_enabled = 1
 vim.g.gitblame_date_format = '%d/%m/%y %H:%M'
 
 require('globals')
-require('mat.keymapping')
 require('mat.options')
+require('mat.neovide')
+require('impatient').enable_profile()
+require('mat.keymapping')
 require('mat.plugins')
 require('mat.lsp')
 

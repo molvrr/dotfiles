@@ -1,7 +1,7 @@
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 vim.cmd [[packadd packer.nvim]]
 
@@ -56,11 +56,14 @@ return require('packer').startup(function(use)
         }
       }
     })
-  end}
+  end,
+    cmd = 'Telescope'
+  }
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
   use {'windwp/nvim-autopairs',
+    event = 'BufWritePre',
     config = function()
       require('nvim-autopairs').setup({})
   end}
@@ -99,7 +102,7 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'neovim/nvim-lspconfig'
   use 'morhetz/gruvbox'
-  use 'sbdchd/neoformat'
+  use {'sbdchd/neoformat', cmd = 'Neoformat'}
   use 'mbbill/undotree'
   use {'mattn/emmet-vim', ft = { 'html' } }
   use 'ThePrimeAgen/harpoon'
@@ -124,6 +127,46 @@ return require('packer').startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use {'L3MON4D3/LuaSnip', config = function() require('luasnip.loaders.from_vscode').lazy_load() end}
   use 'rafamadriz/friendly-snippets'
+  use { 'mfussenegger/nvim-dap',
+    requires = {{
+      'suketa/nvim-dap-ruby',
+      config = function ()
+        require('dap-ruby').setup()
+      end
+    },
+    {
+        'jbyuki/one-small-step-for-vimkind',
+        config = function ()
+          local dap = require('dap')
+          dap.configurations.lua = {
+            {
+              type = 'nlua',
+              request = 'attach',
+              name = "Attach to running Neovim instance",
+              host = function()
+                local value = vim.fn.input('Host [127.0.0.1]: ')
+                if value ~= "" then
+                  return value
+                end
+                return '127.0.0.1'
+              end,
+              port = function()
+                local val = tonumber(vim.fn.input('Port: '))
+                assert(val, "Please provide a port number")
+                return val
+              end,
+            }
+          }
+
+          dap.adapters.nlua = function(callback, config)
+            callback({ type = 'server', host = config.host, port = config.port })
+          end
+        end
+      }
+    }
+  }
+  use 'lewis6991/impatient.nvim'
+  use 'rhysd/vim-grammarous'
 
   use 'MunifTanjim/nui.nvim'
   -- Local
@@ -134,8 +177,7 @@ return require('packer').startup(function(use)
       require('dock').setup()
     end
   }
-  if packer_bootstrap then
+  if Packer_bootstrap then
     require('packer').sync()
   end
 end)
-
