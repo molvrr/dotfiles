@@ -169,12 +169,13 @@ return require('packer').startup(function(use)
   use 'rhysd/vim-grammarous'
 
   use 'MunifTanjim/nui.nvim'
+  use 'skanehira/denops-docker.vim'
   -- Local
   use '~/misc/neovim-plugins/cmusp.nvim/'
   use {
     '~/misc/neovim-plugins/dock/',
     config = function ()
-      require('dock').setup()
+      --require('dock').setup()
     end
   }
   if Packer_bootstrap then
