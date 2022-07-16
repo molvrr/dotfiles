@@ -11,6 +11,7 @@ require('mat.neovide')
 require('mat.keymapping')
 require('mat.plugins')
 require('mat.lsp')
+require('mat.utils')
 
 local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
@@ -18,7 +19,6 @@ end
 
 --autocmd('vimenter', { pattern = '*', command = 'colorscheme gruvbox', nested = true })
 autocmd('FileType', { pattern = '*', command = 'set formatoptions-=cro' })
-autocmd({'BufEnter', 'BufLeave'}, { pattern = '*.md', command = 'set spell', nested = true })
 
 local cursor_line_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
 vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, { pattern = '*', command = 'setlocal cursorline', group = cursor_line_group })

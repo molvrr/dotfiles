@@ -1,5 +1,5 @@
-vim.opt.spelllang = 'pt_br', 'en'
 vim.opt.mouse = 'a'
+vim.opt.spell = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
@@ -16,7 +16,7 @@ vim.opt.foldmethod = 'indent'
 vim.opt.foldenable = false
 vim.opt.listchars = 'space:·'
 vim.opt.list = true
-vim.opt.so = 5
+--vim.opt.so = 5
 vim.opt.hlsearch = false
 vim.opt.swapfile = false
 vim.opt.backup = false
