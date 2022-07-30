@@ -4,7 +4,6 @@ vim.g.mapleader = ' '
 vim.g.gitblame_enabled = 1
 vim.g.gitblame_date_format = '%d/%m/%y %H:%M'
 
-require('impatient').enable_profile()
 require('mat.globals')
 require('mat.options')
 require('mat.neovide')
