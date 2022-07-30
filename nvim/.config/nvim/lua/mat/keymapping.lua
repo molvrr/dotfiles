@@ -21,4 +21,5 @@ map('n', '<Leader>si', ':e ~/.config/nvim/init.lua<CR>', {silent=true})
 map('n', '<Leader>sp', ':e ~/.config/nvim/lua/mat/plugins.lua<CR>', {silent=true})
 map('n', '<Leader>sk', ':e ~/.config/nvim/lua/mat/keymapping.lua<CR>', {silent=true})
 map('n', '<Leader>so', ':e ~/.config/nvim/lua/mat/options.lua<CR>', {silent=true})
+map('n', '<Leader>n', ':e /mnt/e/Mateus/Notas/obsidian/<CR>', {silent=true})
 if vim.g.neovide then map('n', '<C-V>', 'p', {silent=true}) end

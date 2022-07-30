@@ -21,6 +21,7 @@ vim.opt.hlsearch = false
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.wb = false
+vim.opt.guicursor = 'i:block'
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,

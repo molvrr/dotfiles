@@ -12,20 +12,24 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true},
-      {'navarasu/onedark.nvim',
-        config = function ()
-          require('onedark').setup({
-            style = 'warmer',
-            transparent = false,
-          })
-          require('onedark').load({})
-        end}
     },
     config = function()
-      require('lualine').setup({})
+      require('lualine').setup({
+        options = {
+          globalstatus = false,
+          theme = 'gruvbox',
+        },
+        sections = {
+          lualine_c = {
+            {
+            'filename',
+            path = 3
+          }}
+        }
+      })
     end}
   use 'tjdevries/colorbuddy.vim'
-  use 'tjdevries/gruvbuddy.nvim'
+  --use 'tjdevries/gruvbuddy.nvim'
   use 'tjdevries/train.nvim'
   use 'azadkuh/vim-cmus'
   use {'nvim-telescope/telescope.nvim', config = function()
@@ -56,22 +60,17 @@ return require('packer').startup(function(use)
         }
       }
     })
-  end,
-    cmd = 'Telescope'
+  end
   }
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
-  use {'windwp/nvim-autopairs',
-    event = 'BufWritePre',
-    config = function()
-      require('nvim-autopairs').setup({})
-  end}
+  use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup({}) end}
   use {
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        indent = { enable = true },
+        --indent = { enable = true },
         auto_install = true,
         highlight = { enable = true,
           additional_vim_regex_highlighting = false },
@@ -119,8 +118,6 @@ return require('packer').startup(function(use)
     ft = { 'markdown' }
   }
   use 'f-person/git-blame.nvim'
-  --use 'metakirby5/codi.vim'
-  --use 'phaazon/hop.nvim'
   use 'vim-test/vim-test'
   use 'tpope/vim-rails'
   use 'tpope/vim-fugitive'
@@ -170,6 +167,7 @@ return require('packer').startup(function(use)
 
   use 'MunifTanjim/nui.nvim'
   use 'skanehira/denops-docker.vim'
+  use 'tpope/vim-commentary'
   -- Local
   use '~/misc/neovim-plugins/cmusp.nvim/'
   use {
@@ -178,6 +176,21 @@ return require('packer').startup(function(use)
       --require('dock').setup()
     end
   }
+  use 'Olical/conjure'
+  use 'tpope/vim-dispatch'
+  use 'clojure-vim/vim-jack-in'
+  use 'radenling/vim-dispatch-neovim'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-endwise'
+  use {'navarasu/onedark.nvim',
+  config = function ()
+    --require('onedark').setup({
+    --  style = 'warmer',
+    --  transparent = false,
+    --})
+    --require('onedark').load({})
+  end}
+
   if Packer_bootstrap then
     require('packer').sync()
   end
