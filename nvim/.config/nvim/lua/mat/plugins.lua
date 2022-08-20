@@ -40,7 +40,7 @@ return require('packer').startup(function(use)
         },
       extensions = {
         fzy_native = {
-          override_generic_sorter = false,
+          override_generic_sorter = true,
           override_file_sorter = true,
           }
         },
@@ -168,14 +168,6 @@ return require('packer').startup(function(use)
   use 'MunifTanjim/nui.nvim'
   use 'skanehira/denops-docker.vim'
   use 'tpope/vim-commentary'
-  -- Local
-  use '~/misc/neovim-plugins/cmusp.nvim/'
-  use {
-    '~/misc/neovim-plugins/dock/',
-    config = function ()
-      --require('dock').setup()
-    end
-  }
   use 'Olical/conjure'
   use 'tpope/vim-dispatch'
   use 'clojure-vim/vim-jack-in'
@@ -190,8 +182,29 @@ return require('packer').startup(function(use)
     --})
     --require('onedark').load({})
   end}
+  use 'purescript-contrib/purescript-vim'
+  use {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
+    end
+  }
+  use {
+    'williamboman/mason-lspconfig.nvim',
+    config = function()
+      require('mason-lspconfig').setup({
+        ensure_installed = { 'tailwindcss' }
+      })
+    end
+  }
+  use {
+    "nvim-telescope/telescope-file-browser.nvim",
+    config = function()
+      require('telescope').load_extension('file_browser')
+    end
+  }
 
-  if Packer_bootstrap then
-    require('packer').sync()
-  end
+if Packer_bootstrap then
+  require('packer').sync()
+end
 end)
