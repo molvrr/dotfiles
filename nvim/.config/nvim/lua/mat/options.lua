@@ -23,7 +23,16 @@ vim.opt.backup = false
 vim.opt.wb = false
 vim.opt.guicursor = 'i:block'
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = true,
   signs = true,
   severity_sort = true
 })
+if require('mat.utils').has('wsl') then
+  vim.g.python3_host_prog = '/home/illfate/.pyenv/shims/python3'
+end
+vim.g.mapleader = ' '
+vim.g.gitblame_enabled = 1
+vim.g.gitblame_date_format = '%d/%m/%y %H:%M'
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0

@@ -190,6 +190,8 @@ return require('packer').startup(function(use)
     --})
     --require('onedark').load({})
   end}
+  use 'rescript-lang/vim-rescript'
+  use 'zah/nim.vim'
 
   if Packer_bootstrap then
     require('packer').sync()

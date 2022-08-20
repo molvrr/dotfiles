@@ -1,3 +1,5 @@
+local util = require('lspconfig/util')
+
 local opt = { silent = true }
 vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opt)
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opt)
@@ -56,7 +58,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp' }
+local servers = { 'pyright', 'rust_analyzer', 'solargraph', 'ocamllsp', 'nimls' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
@@ -66,6 +68,28 @@ for _, lsp in pairs(servers) do
     },
   }
 end
+
+require('lspconfig').tsserver.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git", "*.ts")
+})
+
+require('lspconfig').rescriptls.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  cmd = {
+    'node',
+    '/home/illfate/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
+    '--stdio'
+  }
+})
 
 require('lspconfig').elixirls.setup({
   capabilities = capabilities,
