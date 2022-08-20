@@ -15,7 +15,7 @@ vim.opt.splitright = true
 vim.opt.foldmethod = 'indent'
 vim.opt.foldenable = false
 vim.opt.listchars = 'space:·'
-vim.opt.list = true
+vim.opt.list = false
 --vim.opt.so = 5
 vim.opt.hlsearch = false
 vim.opt.swapfile = false
@@ -27,3 +27,4 @@ vim.diagnostic.config({
   signs = true,
   severity_sort = true
 })
+vim.opt.colorcolumn = {120}

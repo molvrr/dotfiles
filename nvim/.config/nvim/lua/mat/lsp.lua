@@ -56,7 +56,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls' }
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
@@ -77,22 +77,22 @@ require('lspconfig').elixirls.setup({
 })
 
 
-require('lspconfig').sumneko_lua.setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-    },
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = {'vim'}
-        },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
-        checkThirdParty = false
-        },
-      }
-    }
-})
+--require('lspconfig').sumneko_lua.setup({
+--  capabilities = capabilities,
+--  on_attach = on_attach,
+--  flags = {
+--    debounce_text_changes = 150,
+--    },
+--  settings = {
+--    Lua = {
+--      diagnostics = {
+--        globals = {'vim'}
+--        },
+--      workspace = {
+--        library = vim.api.nvim_get_runtime_file('', true),
+--        checkThirdParty = false
+--        },
+--      }
+--    }
+--})
 
