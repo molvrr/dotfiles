@@ -203,6 +203,8 @@ return require('packer').startup(function(use)
       require('telescope').load_extension('file_browser')
     end
   }
+  use 'rescript-lang/vim-rescript'
+  use 'zah/nim.vim'
 
 if Packer_bootstrap then
   require('packer').sync()

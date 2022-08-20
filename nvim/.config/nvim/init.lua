@@ -1,9 +1,3 @@
-vim.g.python3_host_prog = '/home/illfate/.pyenv/versions/nvim/bin/python'
-vim.g.ruby_host_prog = '/home/illfate/.asdf/installs/ruby/3.1.1/bin/ruby'
-vim.g.mapleader = ' '
-vim.g.gitblame_enabled = 1
-vim.g.gitblame_date_format = '%d/%m/%y %H:%M'
-
 require('mat.globals')
 require('mat.options')
 require('mat.neovide')
