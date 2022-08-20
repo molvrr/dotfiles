@@ -25,4 +25,4 @@ map('n', '<Leader>so', ':e ~/.config/nvim/lua/mat/options.lua<CR>', {silent=true
 map('n', 'ss', 'ggVG', {})
 map('n', '+', '<C-a>', {})
 map('n', '-', '<C-x>', {})
-if vim.g.neovide then map('n', '<C-V>', 'p', {silent=true}) end
+map('n', 'j', 'gj', {})

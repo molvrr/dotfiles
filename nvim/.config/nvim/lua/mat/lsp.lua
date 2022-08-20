@@ -1,3 +1,5 @@
+local util = require('lspconfig/util')
+
 local opt = { silent = true }
 vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opt)
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opt)
@@ -66,6 +68,28 @@ for _, lsp in pairs(servers) do
     },
   }
 end
+
+require('lspconfig').tsserver.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git", "*.ts")
+})
+
+require('lspconfig').rescriptls.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  cmd = {
+    'node',
+    '/home/illfate/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
+    '--stdio'
+  }
+})
 
 require('lspconfig').elixirls.setup({
   capabilities = capabilities,
