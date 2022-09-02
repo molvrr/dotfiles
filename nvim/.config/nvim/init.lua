@@ -6,11 +6,13 @@ require('mat.plugins')
 require('mat.lsp')
 require('mat.utils')
 
+require'treesitter-context'.setup()
+
 local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
 
-autocmd('vimenter', { pattern = '*', command = 'colorscheme gruvbox', nested = true })
+--autocmd('vimenter', { pattern = '*', command = 'colorscheme gruvbox', nested = true })
 autocmd('FileType', { pattern = '*', command = 'set formatoptions-=cro' })
 
 local cursor_line_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
@@ -23,3 +25,5 @@ vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'plugins.lua', command =
 local keymap_group = vim.api.nvim_create_augroup('keymappings', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'keymapping.lua', command = 'source <afile>', group = keymap_group })
 
+local prettier_group = vim.api.nvim_create_augroup('prettier', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', { pattern = '*.jsx', command = 'Neoformat prettier', group = prettier_group })
