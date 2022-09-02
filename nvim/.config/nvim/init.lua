@@ -6,8 +6,6 @@ require('mat.plugins')
 require('mat.lsp')
 require('mat.utils')
 
-require'treesitter-context'.setup()
-
 local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
