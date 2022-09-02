@@ -25,3 +25,4 @@ map('n', '<Leader>so', ':e ~/.config/nvim/lua/mat/options.lua<CR>', {silent=true
 map('n', 'ss', 'ggVG', {})
 map('n', '+', '<C-a>', {})
 map('n', '-', '<C-x>', {})
+map('n', '<Leader>cl', ':lua require("mat.utils").clear_comments()<CR>', {silent=true})
