@@ -32,6 +32,7 @@ return require('packer').startup(function(use)
   --use 'tjdevries/gruvbuddy.nvim'
   use 'tjdevries/train.nvim'
   use 'azadkuh/vim-cmus'
+  use 'nvim-telescope/telescope-file-browser.nvim'
   use {'nvim-telescope/telescope.nvim', config = function()
     require('telescope').setup({
       defaults = {
@@ -60,6 +61,7 @@ return require('packer').startup(function(use)
         }
       }
     })
+    require('telescope').load_extension('file_browser')
   end
   }
   use 'nvim-lua/popup.nvim'
@@ -197,14 +199,23 @@ return require('packer').startup(function(use)
       })
     end
   }
-  use {
-    "nvim-telescope/telescope-file-browser.nvim",
-    config = function()
-      require('telescope').load_extension('file_browser')
-    end
-  }
   use 'rescript-lang/vim-rescript'
   use 'zah/nim.vim'
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup({
+        default = {
+          'class',
+          'function',
+          'method',
+          'for',
+          'if',
+        }
+      })
+    end
+  }
+  use 'nvim-treesitter/playground'
 
 if Packer_bootstrap then
   require('packer').sync()

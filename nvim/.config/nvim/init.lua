@@ -6,6 +6,8 @@ require('mat.plugins')
 require('mat.lsp')
 require('mat.utils')
 
+vim.opt.guifont = "FiraCode"
+
 local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
@@ -23,3 +25,5 @@ vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'plugins.lua', command =
 local keymap_group = vim.api.nvim_create_augroup('keymappings', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'keymapping.lua', command = 'source <afile>', group = keymap_group })
 
+local prettier_group = vim.api.nvim_create_augroup('prettier', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', { pattern = '*.jsx', command = 'Neoformat prettier', group = prettier_group })
