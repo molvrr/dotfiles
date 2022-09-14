@@ -178,11 +178,11 @@ return require('packer').startup(function(use)
   use 'tpope/vim-endwise'
   use {'navarasu/onedark.nvim',
   config = function ()
-    require('onedark').setup({
-      style = 'warmer',
-      transparent = false,
-    })
-    require('onedark').load({})
+    -- require('onedark').setup({
+    --   style = 'warmer',
+    --   transparent = false,
+    -- })
+    -- require('onedark').load({})
   end}
   use 'purescript-contrib/purescript-vim'
   use {
@@ -216,6 +216,7 @@ return require('packer').startup(function(use)
     end
   }
   use 'nvim-treesitter/playground'
+  use 'nkrkv/nvim-treesitter-rescript'
 
   if Packer_bootstrap then
     require('packer').sync()
