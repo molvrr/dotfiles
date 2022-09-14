@@ -86,7 +86,7 @@ require('lspconfig').rescriptls.setup({
   },
   cmd = {
     'node',
-    '/home/illfate/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
+    '/home/mat/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
     '--stdio'
   }
 })
@@ -97,7 +97,7 @@ require('lspconfig').elixirls.setup({
   flags = {
     debounce_text_changes = 150,
   },
-  cmd = { '/home/illfate/elixir-ls/language_server.sh' }
+  cmd = { '/home/mat/elixir-ls/language_server.sh' }
 })
 
 
