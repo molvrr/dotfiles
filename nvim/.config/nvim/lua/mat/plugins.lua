@@ -67,12 +67,17 @@ return require('packer').startup(function(use)
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
-  use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup({}) end}
+  -- use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup({}) end}
   use {
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
         --indent = { enable = true },
+        rainbow = {
+          enable = true,
+          extended_mode = true,
+          max_file_lines = nil
+        }, 
         auto_install = true,
         highlight = { enable = true,
           additional_vim_regex_highlighting = false },
@@ -105,7 +110,7 @@ return require('packer').startup(function(use)
   use 'morhetz/gruvbox'
   use {'sbdchd/neoformat', cmd = 'Neoformat'}
   use 'mbbill/undotree'
-  use {'mattn/emmet-vim', ft = { 'html' } }
+  use {'mattn/emmet-vim', ft = { 'html', 'rescript' } }
   use 'ThePrimeAgen/harpoon'
   use 'ThePrimeAgen/vim-be-good'
   use 'leafo/moonscript-vim'
@@ -175,7 +180,7 @@ return require('packer').startup(function(use)
   use 'clojure-vim/vim-jack-in'
   use 'radenling/vim-dispatch-neovim'
   use 'tpope/vim-surround'
-  use 'tpope/vim-endwise'
+  -- use 'tpope/vim-endwise'
   use {'navarasu/onedark.nvim',
   config = function ()
     -- require('onedark').setup({
@@ -216,7 +221,9 @@ return require('packer').startup(function(use)
     end
   }
   use 'nvim-treesitter/playground'
+  use 'airblade/vim-gitgutter'
   use 'nkrkv/nvim-treesitter-rescript'
+  use 'p00f/nvim-ts-rainbow'
 
   if Packer_bootstrap then
     require('packer').sync()
