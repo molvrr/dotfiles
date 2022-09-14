@@ -58,7 +58,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss'}
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss', 'clojure_lsp'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
@@ -86,7 +86,7 @@ require('lspconfig').rescriptls.setup({
   },
   cmd = {
     'node',
-    '/home/illfate/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
+    '/home/mat/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
     '--stdio'
   }
 })
@@ -97,7 +97,7 @@ require('lspconfig').elixirls.setup({
   flags = {
     debounce_text_changes = 150,
   },
-  cmd = { '/home/illfate/elixir-ls/language_server.sh' }
+  cmd = { '/home/mat/elixir-ls/language_server.sh' }
 })
 
 
