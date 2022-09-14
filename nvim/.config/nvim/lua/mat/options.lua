@@ -22,6 +22,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.wb = false
 vim.opt.guicursor = 'i:block'
+vim.opt.updatetime = 100
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
@@ -31,9 +32,10 @@ vim.opt.colorcolumn = {120}
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.g.mapleader = ' '
+vim.g.localleader = ','
 vim.g.gitblame_enabled = 1
 vim.g.gitblame_date_format = '%d/%m/%y %H:%M'
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
-
+-- vim.g.neoformat_verbose = 1
