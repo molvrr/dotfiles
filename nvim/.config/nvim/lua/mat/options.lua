@@ -1,4 +1,4 @@
-vim.opt.mouse = 'a'
+vim.opt.mouse = nil
 vim.opt.spell = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2

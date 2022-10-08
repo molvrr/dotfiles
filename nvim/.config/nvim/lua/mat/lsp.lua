@@ -13,6 +13,14 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+
+  if client.server_capabilities.colorProvider then
+    require('document-color').buf_attach(bufnr)
+  end
+
+  if client.server_capabilities.codeLens then
+    require('virtualtypes').on_attach(client, bufnr)
+  end
 end
 
 local cmp = require('cmp')
