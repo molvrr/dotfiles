@@ -40,11 +40,11 @@ return require('packer').startup({function(use)
         grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
         },
       extensions = {
-          fzf = {
-            fuzzy = true,
-            override_generic_sorter = true,
-            override_file_sorter = true,
-            case_mode = "smart_case",
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = 'smart_case',
           }
         },
         pickers = {
@@ -145,51 +145,51 @@ return require('packer').startup({function(use)
   use 'radenling/vim-dispatch-neovim'
   use 'tpope/vim-surround'
   -- use 'tpope/vim-endwise'
-    use 'purescript-contrib/purescript-vim'
-    use {
-      'williamboman/mason.nvim',
-      config = function()
-        require('mason').setup()
-      end
-    }
-    use {
-      'williamboman/mason-lspconfig.nvim',
-      config = function()
-        require('mason-lspconfig').setup({
-          ensure_installed = { 'tailwindcss' }
-        })
-      end
-    }
-    use 'rescript-lang/vim-rescript'
-    use 'zah/nim.vim'
-    use {
-      'nvim-treesitter/nvim-treesitter-context',
-      config = function()
-        require('treesitter-context').setup({
-          default = {
-            'class',
-            'function',
-            'method',
-            'for',
-            'if',
-          }
-        })
-      end
-    }
-    use 'nvim-treesitter/playground'
-    use 'airblade/vim-gitgutter'
-    use 'nkrkv/nvim-treesitter-rescript'
-    use 'p00f/nvim-ts-rainbow'
-    use 'artanikin/vim-synthwave84'
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-    use { 'mrshmllow/document-color.nvim', config = function()
-      require("document-color").setup {
-        -- Default options
-        mode = "background", -- "background" | "foreground" | "single"
-      }
+  use 'purescript-contrib/purescript-vim'
+  use {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
     end
+  }
+  use {
+    'williamboman/mason-lspconfig.nvim',
+    config = function()
+      require('mason-lspconfig').setup({
+        ensure_installed = { 'tailwindcss' }
+      })
+    end
+  }
+  use 'rescript-lang/vim-rescript'
+  use 'zah/nim.vim'
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup({
+        default = {
+          'class',
+          'function',
+          'method',
+          'for',
+          'if',
+        }
+      })
+    end
+  }
+  use 'nvim-treesitter/playground'
+  use 'airblade/vim-gitgutter'
+  use 'nkrkv/nvim-treesitter-rescript'
+  use 'p00f/nvim-ts-rainbow'
+  use 'artanikin/vim-synthwave84'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'mrshmllow/document-color.nvim', config = function()
+    require("document-color").setup {
+      -- Default options
+      mode = "background", -- "background" | "foreground" | "single"
     }
-    use 'jubnzv/virtual-types.nvim'
+  end
+  }
+  use 'jubnzv/virtual-types.nvim'
 
   if Packer_bootstrap then
     require('packer').sync()

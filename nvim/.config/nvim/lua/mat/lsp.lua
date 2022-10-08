@@ -18,9 +18,7 @@ local on_attach = function(client, bufnr)
     require('document-color').buf_attach(bufnr)
   end
 
-  if client.server_capabilities.codeLens then
-    require('virtualtypes').on_attach(client, bufnr)
-  end
+  require('virtualtypes').on_attach(client, bufnr)
 end
 
 local cmp = require('cmp')
@@ -66,7 +64,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss', 'elmls', 'dockerls', 'clojure_lsp'}
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss', 'elmls', 'dockerls', 'clojure_lsp', 'jdtls'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
