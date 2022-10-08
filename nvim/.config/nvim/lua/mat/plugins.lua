@@ -28,8 +28,6 @@ return require('packer').startup({function(use)
         }
       })
     end}
-  use 'tjdevries/colorbuddy.vim'
-  use { 'tjdevries/gruvbuddy.nvim', disable = true }
   use 'tjdevries/train.nvim'
   use 'azadkuh/vim-cmus'
   use 'nvim-telescope/telescope-file-browser.nvim'
@@ -75,6 +73,9 @@ return require('packer').startup({function(use)
     config = function()
       require('nvim-treesitter.configs').setup({
         --indent = { enable = true },
+        endwise = {
+          enable = true
+        },
         rainbow = {
           enable = true,
           extended_mode = true,
@@ -190,6 +191,8 @@ return require('packer').startup({function(use)
   end
   }
   use 'jubnzv/virtual-types.nvim'
+  use 'RRethy/nvim-treesitter-endwise'
+  use 'pbrisbin/vim-mkdir'
 
   if Packer_bootstrap then
     require('packer').sync()
