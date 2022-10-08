@@ -11,6 +11,7 @@ local function autocmd(event, opts)
 end
 
 autocmd('vimenter', { pattern = '*', command = 'colorscheme gruvbox', nested = true })
+-- autocmd('vimenter', { pattern = '*', command = 'colorscheme synthwave84', nested = true })
 autocmd('FileType', { pattern = '*', command = 'set formatoptions-=cro' })
 
 local cursor_line_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
@@ -24,4 +25,4 @@ local keymap_group = vim.api.nvim_create_augroup('keymappings', { clear = true }
 vim.api.nvim_create_autocmd('BufWritePost', { pattern = 'keymapping.lua', command = 'source <afile>', group = keymap_group })
 
 local prettier_group = vim.api.nvim_create_augroup('prettier', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePre', { pattern = '*.jsx', command = 'Neoformat prettier', group = prettier_group })
+vim.api.nvim_create_autocmd('BufWritePre', { pattern = '*.{tsx,jsx}', command = 'Neoformat prettier', group = prettier_group })
