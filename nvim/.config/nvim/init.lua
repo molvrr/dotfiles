@@ -11,7 +11,6 @@ local function autocmd(event, opts)
 end
 
 vim.cmd.colorscheme('gruvbox')
-autocmd('FileType', { pattern = '*', command = 'set formatoptions-=cro' })
 
 local cursor_line_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
 autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, { pattern = '*', command = 'setlocal cursorline', group = cursor_line_group })

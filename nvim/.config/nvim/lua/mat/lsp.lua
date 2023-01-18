@@ -16,10 +16,6 @@ local on_attach = function(client, bufnr)
   if client.server_capabilities.colorProvider then
     require('document-color').buf_attach(bufnr)
   end
-
-  if client.server_capabilities.codeLens then
-    require('virtualtypes').on_attach(client, bufnr)
-  end
 end
 
 local cmp = require('cmp')

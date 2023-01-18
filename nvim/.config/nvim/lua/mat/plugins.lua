@@ -28,6 +28,9 @@ return require('packer').startup({function(use)
         }
       })
     end}
+  use 'tjdevries/train.nvim'
+  use 'azadkuh/vim-cmus'
+  use 'nvim-telescope/telescope-file-browser.nvim'
   use {'nvim-telescope/telescope.nvim', config = function()
     require('telescope').setup({
       defaults = {
@@ -194,6 +197,9 @@ return require('packer').startup({function(use)
 
   use 'tpope/vim-abolish'
   use 'vim-crystal/vim-crystal'
+  use 'jubnzv/virtual-types.nvim'
+  use 'RRethy/nvim-treesitter-endwise'
+  use 'pbrisbin/vim-mkdir'
 
   if Packer_bootstrap then
     require('packer').sync()
