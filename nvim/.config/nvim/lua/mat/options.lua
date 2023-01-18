@@ -23,12 +23,13 @@ vim.opt.backup = false
 vim.opt.wb = false
 vim.opt.guicursor = 'i:block'
 vim.opt.updatetime = 100
+vim.opt.signcolumn = 'yes'
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
   severity_sort = true
 })
-vim.opt.colorcolumn = {120}
+-- vim.opt.colorcolumn = {120}
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.opt.termguicolors = true

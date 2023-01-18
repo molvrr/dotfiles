@@ -3,11 +3,11 @@ local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
-vim.cmd [[packadd packer.nvim]]
+
+vim.cmd.packadd('packer.nvim')
 
 return require('packer').startup({function(use)
   use 'wbthomason/packer.nvim'
-
   use {
     'nvim-lualine/lualine.nvim',
     requires = {
@@ -28,18 +28,13 @@ return require('packer').startup({function(use)
         }
       })
     end}
-  use 'tjdevries/colorbuddy.vim'
-  use { 'tjdevries/gruvbuddy.nvim', disable = true }
-  use 'tjdevries/train.nvim'
-  use 'azadkuh/vim-cmus'
-  use 'nvim-telescope/telescope-file-browser.nvim'
   use {'nvim-telescope/telescope.nvim', config = function()
     require('telescope').setup({
       defaults = {
         file_previewer = require('telescope.previewers').vim_buffer_cat.new,
         grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
         },
-      extensions = {
+        extensions = {
           fzf = {
             fuzzy = true,
             override_generic_sorter = true,
@@ -65,7 +60,10 @@ return require('packer').startup({function(use)
       })
       require('telescope').load_extension('file_browser')
       require('telescope').load_extension('fzf')
-    end
+    end,
+    requires = {
+      'nvim-telescope/telescope-file-browser.nvim'
+    }
   }
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
@@ -79,7 +77,7 @@ return require('packer').startup({function(use)
           enable = true,
           extended_mode = true,
           max_file_lines = nil
-        }, 
+        },
         auto_install = true,
         highlight = { enable = true,
         additional_vim_regex_highlighting = false },
@@ -135,7 +133,6 @@ return require('packer').startup({function(use)
   use 'rafamadriz/friendly-snippets'
   use 'lewis6991/impatient.nvim'
   use 'rhysd/vim-grammarous'
-
   use 'MunifTanjim/nui.nvim'
   use 'skanehira/denops-docker.vim'
   use 'tpope/vim-commentary'
@@ -145,51 +142,58 @@ return require('packer').startup({function(use)
   use 'radenling/vim-dispatch-neovim'
   use 'tpope/vim-surround'
   -- use 'tpope/vim-endwise'
-    use 'purescript-contrib/purescript-vim'
-    use {
-      'williamboman/mason.nvim',
-      config = function()
-        require('mason').setup()
-      end
-    }
-    use {
-      'williamboman/mason-lspconfig.nvim',
-      config = function()
-        require('mason-lspconfig').setup({
-          ensure_installed = { 'tailwindcss' }
-        })
-      end
-    }
-    use 'rescript-lang/vim-rescript'
-    use 'zah/nim.vim'
-    use {
-      'nvim-treesitter/nvim-treesitter-context',
-      config = function()
-        require('treesitter-context').setup({
-          default = {
-            'class',
-            'function',
-            'method',
-            'for',
-            'if',
-          }
-        })
-      end
-    }
-    use 'nvim-treesitter/playground'
-    use 'airblade/vim-gitgutter'
-    use 'nkrkv/nvim-treesitter-rescript'
-    use 'p00f/nvim-ts-rainbow'
-    use 'artanikin/vim-synthwave84'
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-    use { 'mrshmllow/document-color.nvim', config = function()
-      require("document-color").setup {
-        -- Default options
-        mode = "background", -- "background" | "foreground" | "single"
-      }
+  use 'purescript-contrib/purescript-vim'
+  use {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
     end
+  }
+  use {
+    'williamboman/mason-lspconfig.nvim',
+    config = function()
+      require('mason-lspconfig').setup()
+    end
+  }
+  use 'rescript-lang/vim-rescript'
+  use 'zah/nim.vim'
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup({
+        default = {
+          'class',
+          'function',
+          'method',
+          'for',
+          'if',
+        }
+      })
+    end
+  }
+  use 'nvim-treesitter/playground'
+  use 'airblade/vim-gitgutter'
+  use 'nkrkv/nvim-treesitter-rescript'
+  use 'p00f/nvim-ts-rainbow'
+  use 'artanikin/vim-synthwave84'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'mrshmllow/document-color.nvim', config = function()
+    require("document-color").setup {
+      mode = "background", -- "background" | "foreground" | "single"
     }
-    use 'jubnzv/virtual-types.nvim'
+  end
+}
+  use 'jubnzv/virtual-types.nvim'
+  use 'tpope/vim-dadbod'
+  use 'kristijanhusak/vim-dadbod-ui'
+  use 'thoughtbot/vim-rspec'
+  use 'preservim/vimux'
+  use { 'windwp/nvim-projectconfig', config = function()
+    require('nvim-projectconfig').setup()
+  end}
+
+  use 'tpope/vim-abolish'
+  use 'vim-crystal/vim-crystal'
 
   if Packer_bootstrap then
     require('packer').sync()
