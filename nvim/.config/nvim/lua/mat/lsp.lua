@@ -9,9 +9,10 @@ vim.keymap.set('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opt)
 local on_attach = function(client, bufnr)
   local opts = vim.tbl_extend('force', opt, {buffer = bufnr})
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
 
   if client.server_capabilities.colorProvider then
     require('document-color').buf_attach(bufnr)
@@ -102,24 +103,3 @@ require('lspconfig').elixirls.setup({
   },
   cmd = { '/home/mat/elixir-ls/language_server.sh' }
 })
-
-
-require('lspconfig').sumneko_lua.setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-    },
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = {'vim'}
-        },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
-        checkThirdParty = false
-        },
-      }
-    }
-})
-
