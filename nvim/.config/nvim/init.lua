@@ -1,10 +1,11 @@
+-- require('mat.plugins')
+require('mat.lazy')
 require('mat.globals')
 require('mat.options')
-require('mat.neovide')
 require('mat.keymapping')
-require('mat.plugins')
 require('mat.lsp')
 require('mat.utils')
+require('aniseed.env').init()
 
 local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
