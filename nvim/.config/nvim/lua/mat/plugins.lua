@@ -1,37 +1,46 @@
-local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+local setup = function(name, opts)
+  local opts = opts or {}
+
+  return function() require(name).setup(opts) end
 end
 
-vim.cmd.packadd('packer.nvim')
-
-return require('packer').startup({function(use)
-  use 'wbthomason/packer.nvim'
-  use {
+require('lazy').setup({
+  {
     'nvim-lualine/lualine.nvim',
-    requires = {
-      {'kyazdani42/nvim-web-devicons', opt = true},
-    },
     config = function()
       require('lualine').setup({
         options = {
           globalstatus = false,
-          theme = 'gruvbox',
+          theme = 'gruvbox'
         },
         sections = {
           lualine_c = {
             {
-            'filename',
-            path = 3
-          }}
+              'filename',
+              path = 3
+            }
+          }
         }
       })
-    end}
-  use 'tjdevries/train.nvim'
-  use 'azadkuh/vim-cmus'
-  use 'nvim-telescope/telescope-file-browser.nvim'
-  use {'nvim-telescope/telescope.nvim', config = function()
+    end,
+    dependencies = { {'kyazdani42/nvim-web-devicons', lazy = true } }
+  },
+  'morhetz/gruvbox',
+  'nvim-telescope/telescope-file-browser.nvim',
+  {'nvim-telescope/telescope.nvim', config = function()
     require('telescope').setup({
       defaults = {
         file_previewer = require('telescope.previewers').vim_buffer_cat.new,
@@ -53,7 +62,6 @@ return require('packer').startup({function(use)
                   local selection = require("telescope.actions.state").get_selected_entry()
                   local dir = vim.fn.fnamemodify(selection.path, ":p:h")
                   require("telescope.actions").close(prompt_bufnr)
-                  -- Depending on what you want put `cd`, `lcd`, `tcd`
                   vim.cmd(string.format("silent lcd %s", dir))
                 end
               }
@@ -64,18 +72,17 @@ return require('packer').startup({function(use)
       require('telescope').load_extension('file_browser')
       require('telescope').load_extension('fzf')
     end,
-    requires = {
+    dependencies = {
       'nvim-telescope/telescope-file-browser.nvim'
     }
-  }
-  use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
-  -- use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup({}) end}
-  use {
+  },
+  'nvim-lua/popup.nvim',
+  'nvim-lua/plenary.nvim',
+  {
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        --indent = { enable = true },
+        -- indent = { enable = true },
         rainbow = {
           enable = true,
           extended_mode = true,
@@ -83,7 +90,7 @@ return require('packer').startup({function(use)
         },
         auto_install = true,
         highlight = { enable = true,
-        additional_vim_regex_highlighting = false },
+         additional_vim_regex_highlighting = false },
         incremental_selection = { enable = true },
         textobjects = {
           select = {
@@ -98,109 +105,103 @@ return require('packer').startup({function(use)
               ['ia'] = '@parameter.inner',
             }
           }
-        },
-      })
-    end,
-    run = ':TSUpdate',
-    requires = 'nvim-treesitter/nvim-treesitter-textobjects'
-  }
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'neovim/nvim-lspconfig'
-  use 'morhetz/gruvbox'
-  use {'sbdchd/neoformat', cmd = 'Neoformat'}
-  use 'mbbill/undotree'
-  use {'mattn/emmet-vim', ft = { 'html', 'rescript', 'javascriptreact' } }
-  use 'ThePrimeAgen/harpoon'
-  use 'ThePrimeAgen/vim-be-good'
-  use 'leafo/moonscript-vim'
-  use 'johngrib/vim-game-code-break'
-  use 'johngrib/vim-game-snake'
-  use {
-    'iamcco/markdown-preview.nvim',
-    run = 'cd app && npm install',
-    setup = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
-    ft = { 'markdown' }
-  }
-  use 'f-person/git-blame.nvim'
-  use 'vim-test/vim-test'
-  use 'tpope/vim-rails'
-  use 'tpope/vim-fugitive'
-  use 'saadparwaiz1/cmp_luasnip'
-  use {'L3MON4D3/LuaSnip', config = function() require('luasnip.loaders.from_vscode').lazy_load() end}
-  use 'rafamadriz/friendly-snippets'
-  use 'lewis6991/impatient.nvim'
-  use 'rhysd/vim-grammarous'
-  use 'MunifTanjim/nui.nvim'
-  use 'skanehira/denops-docker.vim'
-  use 'tpope/vim-commentary'
-  use 'Olical/conjure'
-  use 'tpope/vim-dispatch'
-  use 'clojure-vim/vim-jack-in'
-  use 'radenling/vim-dispatch-neovim'
-  use 'tpope/vim-surround'
-  -- use 'tpope/vim-endwise'
-  use 'purescript-contrib/purescript-vim'
-  use {
-    'williamboman/mason.nvim',
-    config = function()
-      require('mason').setup()
-    end
-  }
-  use {
-    'williamboman/mason-lspconfig.nvim',
-    config = function()
-      require('mason-lspconfig').setup()
-    end
-  }
-  use 'rescript-lang/vim-rescript'
-  use 'zah/nim.vim'
-  use {
-    'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require('treesitter-context').setup({
-        default = {
-          'class',
-          'function',
-          'method',
-          'for',
-          'if',
         }
       })
+    end,
+    build = ':TSUpdate',
+    dependencies = 'nvim-treesitter/nvim-treesitter-textobjects'
+  },
+  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'neovim/nvim-lspconfig',
+  -- 'sbdchd/neoformat',
+  'mbbill/undotree',
+  'mattn/emmet-vim',
+  'ThePrimeAgen/harpoon',
+  'leafo/moonscript-vim',
+  {
+    'iamcco/markdown-preview.nvim',
+    build = 'cd app && npm install',
+    init = function()
+      vim.g.mkdp_filetypes = { 'markdown' }
     end
-  }
-  use 'nvim-treesitter/playground'
-  use 'airblade/vim-gitgutter'
-  use 'nkrkv/nvim-treesitter-rescript'
-  use 'p00f/nvim-ts-rainbow'
-  use 'artanikin/vim-synthwave84'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use { 'mrshmllow/document-color.nvim', config = function()
-    require("document-color").setup {
-      mode = "background", -- "background" | "foreground" | "single"
-    }
-  end
-}
-  use 'jubnzv/virtual-types.nvim'
-  use 'tpope/vim-dadbod'
-  use 'kristijanhusak/vim-dadbod-ui'
-  use 'thoughtbot/vim-rspec'
-  use 'preservim/vimux'
-  use { 'windwp/nvim-projectconfig', config = function()
-    require('nvim-projectconfig').setup()
-  end}
-
-  use 'tpope/vim-abolish'
-  use 'vim-crystal/vim-crystal'
-  use 'jubnzv/virtual-types.nvim'
-  use 'RRethy/nvim-treesitter-endwise'
-  use 'pbrisbin/vim-mkdir'
-
-  if Packer_bootstrap then
-    require('packer').sync()
-  end
-end, config = { display = { open_fn = require('packer.util').float }}})
+  },
+  'vim-test/vim-test',
+  'saadparwaiz1/cmp_luasnip',
+  {'L3MON4D3/LuaSnip', config = function() require('luasnip.loaders.from_vscode').lazy_load() end},
+  'rafamadriz/friendly-snippets',
+  'MunifTanjim/nui.nvim',
+  'skanehira/denops-docker.vim',
+  'Olical/conjure',
+  'clojure-vim/vim-jack-in',
+  'radenling/vim-dispatch-neovim',
+  'purescript-contrib/purescript-vim',
+  { 'williamboman/mason.nvim', config = function() require('mason').setup() end },
+  { 'williamboman/mason-lspconfig.nvim', config = function() require('mason-lspconfig').setup() end },
+  'rescript-lang/vim-rescript',
+  'zah/nim.vim',
+  { 'nvim-treesitter/nvim-treesitter-context', config = function() require('treesitter-context').setup({ default = { 'class', 'function', 'method', 'for', 'if', } }) end },
+  'nvim-treesitter/playground',
+  'airblade/vim-gitgutter',
+  'nkrkv/nvim-treesitter-rescript',
+  'p00f/nvim-ts-rainbow',
+  'artanikin/vim-synthwave84',
+  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  {
+    'mrshmllow/document-color.nvim', config = function()
+      require("document-color").setup {
+        mode = "background", -- "background" | "foreground" | "single"
+      }
+    end
+  },
+  'jubnzv/virtual-types.nvim',
+  'tpope/vim-dadbod',
+  'tpope/vim-abolish',
+  'tpope/vim-rails',
+  'tpope/vim-fugitive',
+  'tpope/vim-dispatch',
+  -- 'tpope/vim-commentary',
+  -- 'tpope/vim-surround',
+  -- 'tpope/vim-endwise',
+  'kristijanhusak/vim-dadbod-ui',
+  'thoughtbot/vim-rspec',
+  'preservim/vimux',
+  { 'windwp/nvim-projectconfig', config = setup('nvim-projectconfig') },
+  'vim-crystal/vim-crystal',
+  'jubnzv/virtual-types.nvim',
+  -- 'RRethy/nvim-treesitter-endwise',
+  'pbrisbin/vim-mkdir',
+  'Olical/aniseed',
+  'junegunn/vim-easy-align',
+  'elixir-editors/vim-elixir',
+  'mfussenegger/nvim-dap',
+  { 'rcarriga/nvim-dap-ui', config = setup('dapui') },
+  { 'suketa/nvim-dap-ruby', config = setup('dap-ruby') },
+  { 'theHamsta/nvim-dap-virtual-text', config = setup('nvim-dap-virtual-text') },
+  { 'folke/which-key.nvim', config = setup('which-key') },
+  'folke/zen-mode.nvim',
+  {'nvim-neorg/neorg', config = function()
+    require('neorg').setup({
+      load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.export"] = {}
+      }}) end},
+  {
+    'nvim-orgmode/orgmode',
+    config = function()
+      require('orgmode').setup_ts_grammar()
+      require('orgmode').setup({
+      })
+    end
+  },
+  'folke/trouble.nvim',
+  'lervag/vimtex',
+  { dir = '~/projects/markdown-evaluate' },
+  { 'numToStr/Comment.nvim', config = setup('Comment') },
+  { 'folke/todo-comments.nvim', config = setup('todo-comments') },
+  { 'echasnovski/mini.surround', config = setup('mini.surround') }
+})
