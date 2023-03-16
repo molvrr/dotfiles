@@ -42,3 +42,6 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 -- vim.g.neoformat_verbose = 1
 vim.g['aniseed#env'] = true
+vim.g['conjure#log#hud#enabled'] = false
+vim.g['conjure#client#clojure#nrepl#connection#auto_repl#hidden'] = true
+vim.g['conjure#client#clojure#nrepl#eval#raw_out'] = true

@@ -77,7 +77,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        --indent = { enable = true },
+        -- indent = { enable = true },
         rainbow = {
           enable = true,
           extended_mode = true,
@@ -176,5 +176,14 @@ require('lazy').setup({
   'jubnzv/virtual-types.nvim',
   'RRethy/nvim-treesitter-endwise',
   'pbrisbin/vim-mkdir',
-  'Olical/aniseed'
+  'Olical/aniseed',
+  'gennaro-tedesco/nvim-jqx',
+  'gleam-lang/gleam.vim',
+
+  -- {
+    --   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    --   config = function()
+      --     require("lsp_lines").setup()
+      --   end,
+      -- }
 })

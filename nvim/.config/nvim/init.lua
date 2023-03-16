@@ -23,5 +23,12 @@ autocmd('BufWritePost', { pattern = 'plugins.lua', command = 'source <afile> | P
 local keymap_group = vim.api.nvim_create_augroup('keymappings', { clear = true })
 autocmd('BufWritePost', { pattern = 'keymapping.lua', command = 'source <afile>', group = keymap_group })
 
-local prettier_group = vim.api.nvim_create_augroup('prettier', { clear = true })
-autocmd('BufWritePre', { pattern = '*.{tsx,jsx}', command = 'Neoformat prettier', group = prettier_group })
+-- local prettier_group = vim.api.nvim_create_augroup('prettier', { clear = true })
+-- autocmd('BufWritePre', { pattern = '*.{tsx,jsx}', command = 'Neoformat prettier', group = prettier_group })
+
+local cloju = vim.api.nvim_create_augroup('cloju', { clear = true })
+autocmd('BufReadPost', { pattern = '*.clj', command = 'lua require("mat.cloj").start()',group = cloju })
+
+
+vim.keymap.set('n', '<Leader>e', function()
+end, { silent = true })

@@ -1,5 +1,3 @@
-local util = require('lspconfig/util')
-
 local opt = { silent = true }
 vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opt)
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opt)
@@ -62,7 +60,21 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss', 'elmls', 'dockerls', 'clojure_lsp', 'crystalline'}
+local servers = {
+  'pyright',
+  'rust_analyzer',
+  'solargraph',
+  'ocamllsp',
+  'hls',
+  'purescriptls',
+  'tailwindcss',
+  'elmls',
+  'dockerls',
+  'clojure_lsp',
+  'crystalline',
+  -- 'ruby_ls'
+}
+
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
@@ -72,15 +84,6 @@ for _, lsp in pairs(servers) do
     },
   }
 end
-
-require('lspconfig').tsserver.setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  },
-  root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git", "*.ts")
-})
 
 require('lspconfig').rescriptls.setup({
   capabilities = capabilities,
@@ -103,3 +106,25 @@ require('lspconfig').elixirls.setup({
   },
   cmd = { '/home/mat/elixir-ls/language_server.sh' }
 })
+require'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
