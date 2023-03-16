@@ -1,7 +1,7 @@
 local util = require('lspconfig/util')
 
 local opt = { silent = true }
-vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opt)
+vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', {silent=true, desc = "Show diagnostic"})
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opt)
 vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opt)
 vim.keymap.set('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opt)
@@ -62,7 +62,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss', 'elmls', 'dockerls', 'clojure_lsp', 'crystalline'}
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'solargraph', 'ocamllsp', 'hls', 'ocamllsp', 'purescriptls', 'tailwindcss', 'elmls', 'dockerls', 'clojure_lsp', 'crystalline', 'gopls'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     capabilities = capabilities,
@@ -73,15 +73,6 @@ for _, lsp in pairs(servers) do
   }
 end
 
-require('lspconfig').tsserver.setup({
-  capabilities = capabilities,
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  },
-  root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git", "*.ts")
-})
-
 require('lspconfig').rescriptls.setup({
   capabilities = capabilities,
   on_attach = on_attach,
@@ -90,7 +81,7 @@ require('lspconfig').rescriptls.setup({
   },
   cmd = {
     'node',
-    '/home/mat/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
+    '/home/illfate/.local/share/nvim/site/pack/packer/start/vim-rescript/server/out/server.js',
     '--stdio'
   }
 })
@@ -101,5 +92,5 @@ require('lspconfig').elixirls.setup({
   flags = {
     debounce_text_changes = 150,
   },
-  cmd = { '/home/mat/elixir-ls/language_server.sh' }
+  cmd = { '/home/illfate/elixir-ls/language_server.sh' }
 })

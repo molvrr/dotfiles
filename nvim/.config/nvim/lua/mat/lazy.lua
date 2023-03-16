@@ -11,6 +11,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local setup = function(name, opts)
+  local opts = opts or {}
+
+  return function() require(name).setup(opts) end
+end
+
 require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
@@ -56,7 +62,6 @@ require('lazy').setup({
                   local selection = require("telescope.actions.state").get_selected_entry()
                   local dir = vim.fn.fnamemodify(selection.path, ":p:h")
                   require("telescope.actions").close(prompt_bufnr)
-                  -- Depending on what you want put `cd`, `lcd`, `tcd`
                   vim.cmd(string.format("silent lcd %s", dir))
                 end
               }
@@ -77,7 +82,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        --indent = { enable = true },
+        -- indent = { enable = true },
         rainbow = {
           enable = true,
           extended_mode = true,
@@ -85,7 +90,7 @@ require('lazy').setup({
         },
         auto_install = true,
         highlight = { enable = true,
-        additional_vim_regex_highlighting = false },
+         additional_vim_regex_highlighting = false },
         incremental_selection = { enable = true },
         textobjects = {
           select = {
@@ -113,14 +118,11 @@ require('lazy').setup({
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-path',
   'neovim/nvim-lspconfig',
-  'sbdchd/neoformat',
+  -- 'sbdchd/neoformat',
   'mbbill/undotree',
   'mattn/emmet-vim',
   'ThePrimeAgen/harpoon',
-  'ThePrimeAgen/vim-be-good',
   'leafo/moonscript-vim',
-  'johngrib/vim-game-code-break',
-  'johngrib/vim-game-snake',
   {
     'iamcco/markdown-preview.nvim',
     build = 'cd app && npm install',
@@ -128,24 +130,15 @@ require('lazy').setup({
       vim.g.mkdp_filetypes = { 'markdown' }
     end
   },
-  'f-person/git-blame.nvim',
   'vim-test/vim-test',
-  'tpope/vim-rails',
-  'tpope/vim-fugitive',
   'saadparwaiz1/cmp_luasnip',
   {'L3MON4D3/LuaSnip', config = function() require('luasnip.loaders.from_vscode').lazy_load() end},
   'rafamadriz/friendly-snippets',
-  'lewis6991/impatient.nvim',
-  'rhysd/vim-grammarous',
   'MunifTanjim/nui.nvim',
   'skanehira/denops-docker.vim',
-  'tpope/vim-commentary',
   'Olical/conjure',
-  'tpope/vim-dispatch',
   'clojure-vim/vim-jack-in',
   'radenling/vim-dispatch-neovim',
-  'tpope/vim-surround',
-  -- use 'tpope/vim-endwise'
   'purescript-contrib/purescript-vim',
   { 'williamboman/mason.nvim', config = function() require('mason').setup() end },
   { 'williamboman/mason-lspconfig.nvim', config = function() require('mason-lspconfig').setup() end },
@@ -167,14 +160,49 @@ require('lazy').setup({
   },
   'jubnzv/virtual-types.nvim',
   'tpope/vim-dadbod',
+  'tpope/vim-abolish',
+  'tpope/vim-rails',
+  'tpope/vim-fugitive',
+  'tpope/vim-dispatch',
+  -- 'tpope/vim-commentary',
+  -- 'tpope/vim-surround',
+  -- 'tpope/vim-endwise',
   'kristijanhusak/vim-dadbod-ui',
   'thoughtbot/vim-rspec',
   'preservim/vimux',
-  { 'windwp/nvim-projectconfig', config = function() require('nvim-projectconfig').setup() end},
-  'tpope/vim-abolish',
+  { 'windwp/nvim-projectconfig', config = setup('nvim-projectconfig') },
   'vim-crystal/vim-crystal',
   'jubnzv/virtual-types.nvim',
-  'RRethy/nvim-treesitter-endwise',
+  -- 'RRethy/nvim-treesitter-endwise',
   'pbrisbin/vim-mkdir',
-  'Olical/aniseed'
+  'Olical/aniseed',
+  'junegunn/vim-easy-align',
+  'elixir-editors/vim-elixir',
+  'mfussenegger/nvim-dap',
+  { 'rcarriga/nvim-dap-ui', config = setup('dapui') },
+  { 'suketa/nvim-dap-ruby', config = setup('dap-ruby') },
+  { 'theHamsta/nvim-dap-virtual-text', config = setup('nvim-dap-virtual-text') },
+  { 'folke/which-key.nvim', config = setup('which-key') },
+  'folke/zen-mode.nvim',
+  {'nvim-neorg/neorg', config = function()
+    require('neorg').setup({
+      load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.export"] = {}
+      }}) end},
+  {
+    'nvim-orgmode/orgmode',
+    config = function()
+      require('orgmode').setup_ts_grammar()
+      require('orgmode').setup({
+      })
+    end
+  },
+  'folke/trouble.nvim',
+  'lervag/vimtex',
+  { dir = '~/projects/markdown-evaluate' },
+  { 'numToStr/Comment.nvim', config = setup('Comment') },
+  { 'folke/todo-comments.nvim', config = setup('todo-comments') },
+  { 'echasnovski/mini.surround', config = setup('mini.surround') }
 })
