@@ -82,15 +82,14 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        -- indent = { enable = true },
+        indent = { enable = true },
         rainbow = {
           enable = true,
           extended_mode = true,
           max_file_lines = nil
         },
-        auto_install = true,
-        highlight = { enable = true,
-         additional_vim_regex_highlighting = false },
+        auto_install = false,
+        highlight = { enable = true },
         incremental_selection = { enable = true },
         textobjects = {
           select = {
@@ -143,7 +142,7 @@ require('lazy').setup({
   { 'williamboman/mason-lspconfig.nvim', config = function() require('mason-lspconfig').setup() end },
   'rescript-lang/vim-rescript',
   'zah/nim.vim',
-  { 'nvim-treesitter/nvim-treesitter-context', config = function() require('treesitter-context').setup({ default = { 'class', 'function', 'method', 'for', 'if', } }) end },
+  -- { 'nvim-treesitter/nvim-treesitter-context', config = function() require('treesitter-context').setup({ default = { 'class', 'function', 'method', 'for', 'if', } }) end },
   'nvim-treesitter/playground',
   'airblade/vim-gitgutter',
   'nkrkv/nvim-treesitter-rescript',
@@ -203,5 +202,7 @@ require('lazy').setup({
   { dir = '~/projects/markdown-evaluate' },
   { 'numToStr/Comment.nvim', config = setup('Comment') },
   { 'folke/todo-comments.nvim', config = setup('todo-comments') },
-  { 'echasnovski/mini.surround', config = setup('mini.surround') }
+  { 'echasnovski/mini.surround', config = setup('mini.surround') },
+  'folke/neodev.nvim',
+  {'j-hui/fidget.nvim', opts = {}}
 })
