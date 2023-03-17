@@ -11,17 +11,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local setup = function(name, opts)
-  local opts = opts or {}
-
-  return function() require(name).setup(opts) end
-end
-
 require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
-    config = function()
-      require('lualine').setup({
+    opts = {
         options = {
           globalstatus = false,
           theme = 'gruvbox'
@@ -34,17 +27,18 @@ require('lazy').setup({
             }
           }
         }
-      })
-    end,
+      },
     dependencies = { {'kyazdani42/nvim-web-devicons', lazy = true } }
   },
   'morhetz/gruvbox',
   'nvim-telescope/telescope-file-browser.nvim',
-  {'nvim-telescope/telescope.nvim', config = function()
-    require('telescope').setup({
-      defaults = {
-        file_previewer = require('telescope.previewers').vim_buffer_cat.new,
-        grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+  {
+    'nvim-telescope/telescope.nvim',
+    config = function()
+      require('telescope').setup({
+        defaults = {
+          file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+          grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
         },
         extensions = {
           fzf = {
@@ -115,7 +109,15 @@ require('lazy').setup({
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-path',
-  'neovim/nvim-lspconfig',
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      {'j-hui/fidget.nvim', opts = {}},
+      'folke/neodev.nvim'
+    }
+  },
   -- 'sbdchd/neoformat',
   'mbbill/undotree',
   'mattn/emmet-vim',
@@ -138,8 +140,6 @@ require('lazy').setup({
   'clojure-vim/vim-jack-in',
   'radenling/vim-dispatch-neovim',
   'purescript-contrib/purescript-vim',
-  { 'williamboman/mason.nvim', config = function() require('mason').setup() end },
-  { 'williamboman/mason-lspconfig.nvim', config = function() require('mason-lspconfig').setup() end },
   'rescript-lang/vim-rescript',
   'zah/nim.vim',
   -- { 'nvim-treesitter/nvim-treesitter-context', config = function() require('treesitter-context').setup({ default = { 'class', 'function', 'method', 'for', 'if', } }) end },
@@ -168,7 +168,7 @@ require('lazy').setup({
   'kristijanhusak/vim-dadbod-ui',
   'thoughtbot/vim-rspec',
   'preservim/vimux',
-  { 'windwp/nvim-projectconfig', config = setup('nvim-projectconfig') },
+  { 'windwp/nvim-projectconfig', opts = {} },
   'vim-crystal/vim-crystal',
   'jubnzv/virtual-types.nvim',
   -- 'RRethy/nvim-treesitter-endwise',
@@ -177,32 +177,33 @@ require('lazy').setup({
   'junegunn/vim-easy-align',
   'elixir-editors/vim-elixir',
   'mfussenegger/nvim-dap',
-  { 'rcarriga/nvim-dap-ui', config = setup('dapui') },
-  { 'suketa/nvim-dap-ruby', config = setup('dap-ruby') },
-  { 'theHamsta/nvim-dap-virtual-text', config = setup('nvim-dap-virtual-text') },
-  { 'folke/which-key.nvim', config = setup('which-key') },
+  { 'rcarriga/nvim-dap-ui', opts = {} },
+  { 'suketa/nvim-dap-ruby', opts = {} },
+  { 'theHamsta/nvim-dap-virtual-text', opts = {} },
+  { 'folke/which-key.nvim', opts = {} },
   'folke/zen-mode.nvim',
-  {'nvim-neorg/neorg', config = function()
-    require('neorg').setup({
-      load = {
-        ["core.defaults"] = {},
-        ["core.norg.concealer"] = {},
-        ["core.export"] = {}
-      }}) end},
+  {
+    'nvim-neorg/neorg',
+    config = function()
+      require('neorg').setup({
+        load = {
+          ["core.defaults"] = {},
+          ["core.norg.concealer"] = {},
+          ["core.export"] = {}
+        }})
+    end
+  },
   {
     'nvim-orgmode/orgmode',
     config = function()
       require('orgmode').setup_ts_grammar()
-      require('orgmode').setup({
-      })
+      require('orgmode').setup()
     end
   },
   'folke/trouble.nvim',
   'lervag/vimtex',
   { dir = '~/projects/markdown-evaluate' },
-  { 'numToStr/Comment.nvim', config = setup('Comment') },
-  { 'folke/todo-comments.nvim', config = setup('todo-comments') },
-  { 'echasnovski/mini.surround', config = setup('mini.surround') },
-  'folke/neodev.nvim',
-  {'j-hui/fidget.nvim', opts = {}}
+  { 'numToStr/Comment.nvim', opts = {} },
+  { 'folke/todo-comments.nvim', opts = {} },
+  { 'echasnovski/mini.surround', config = function() require('mini.surround').setup() end }
 })

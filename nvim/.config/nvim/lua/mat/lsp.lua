@@ -55,25 +55,41 @@ cmp.setup({
   })
 })
 
+require('neodev').setup()
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local servers = {
-  'rust_analyzer',
-  'solargraph',
-  'ocamllsp',
-  'hls',
-  'tailwindcss',
-  'clojure_lsp',
-  'tsserver'
+  rust_analyzer = {},
+  solargraph = {},
+  ocamllsp = {},
+  -- hls = {},
+  -- tailwindcss = {},
+  clojure_lsp = {},
+  tsserver = {},
+  sorbet = {},
+  lua_ls = {
+    Lua = {
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false }
+    }
+  }
   -- 'ruby_ls'
 }
 
-for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    },
-  }
-end
+require('mason').setup()
+local mason_lspconfig = require('mason-lspconfig')
+
+mason_lspconfig.setup({
+  ensure_installed = vim.tbl_keys(servers)
+})
+
+mason_lspconfig.setup_handlers({
+  function(server_name)
+    require('lspconfig')[server_name].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name]
+    })
+  end
+})
