@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   {
-    'nvim-lualine/lualine.nvim',
+    'nvim-lualine/lualine.nvim', -- TODO: Exibir caminho completo dos arquivos
     opts = {
         options = {
           theme = 'gruvbox'
@@ -116,7 +116,7 @@ require('lazy').setup({
     'ThePrimeAgen/harpoon',
     opts = {
       menu = {
-        width = vim.api.nvim_win_get_width(0) - 24,
+        width = vim.api.nvim_win_get_width(0) - 20,
       }
     }
   },
@@ -169,7 +169,6 @@ require('lazy').setup({
   { 'windwp/nvim-projectconfig', opts = {} },
   'vim-crystal/vim-crystal',
   'jubnzv/virtual-types.nvim',
-  -- 'RRethy/nvim-treesitter-endwise',
   'pbrisbin/vim-mkdir',
   'Olical/aniseed',
   'junegunn/vim-easy-align',
@@ -182,17 +181,17 @@ require('lazy').setup({
   'folke/zen-mode.nvim',
   {
     'nvim-neorg/neorg',
-    config = function()
-      require('neorg').setup({
-        load = {
-          ["core.defaults"] = {},
-          ["core.norg.concealer"] = {},
-          ["core.export"] = {}
-        }})
-    end
+    ft = 'norg',
+    opts = {
+      load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.export"] = {}
+      }}
   },
   {
     'nvim-orgmode/orgmode',
+    enabled = false,
     config = function()
       require('orgmode').setup_ts_grammar()
       require('orgmode').setup()
@@ -200,7 +199,6 @@ require('lazy').setup({
   },
   'folke/trouble.nvim',
   'lervag/vimtex',
-  { dir = '~/projects/markdown-evaluate' },
   { 'numToStr/Comment.nvim', opts = {} },
   { 'folke/todo-comments.nvim', opts = {} },
   { 'echasnovski/mini.surround', config = function() require('mini.surround').setup() end },
@@ -212,4 +210,33 @@ require('lazy').setup({
       show_trailing_blankline_indent = false,
     },
   },
+  {
+    'echasnovski/mini.starter',
+    version = false,
+    opts = {
+      header = table.concat({
+          '⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡤⠖⠚⠛⠛⠛⠛⠒⠶⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⢶⠒⠒⠒⠦⣄',
+          '⠀⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⡄⠐⡄⠀⠀⡏⠑⡄⠀⠑⣄⠀⠀⠸⡆',
+          '⠀⠀⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⣵⠀⠀⢹⣤⣿⠀⠀⠈⢆⠀⢸⠇',
+          '⠀⠀⢀⣏⠤⠂⠀⠀⠀⠀⠀⠀⠀⠀⠸⠻⠟⡄⠀⠀⡟⠋⠆⣀⣤⡈⣦⡞⠀',
+          '⠀⣠⠟⠁⠀⠀⠀⠀⠀⠀⠀⣴⣶⣦⡄⠣⠴⠁⠀⢀⡌⠒⠀⠛⠛⠁⢸⠀⠀',
+          '⣰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀',
+          '⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⢔⣲⡿⠉⠛⠒⢄⠀⠀⠀⠀⠀⠀⢸⠀⠀',
+          '⠸⣆⡀⠀⠀⠀⠀⢀⡀⢀⠔⠉⠀⠀⠀⠀⠀⠀⠀⠈⡆⠀⠀⠀⠀⢀⡟⠀⠀',
+          '⠀⠀⠉⠻⣟⠋⠉⠉⡰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⢀⡾⠁⠀⠀',
+          '⠀⠀⠀⠀⠙⢦⡀⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⠀⠀⠀⣠⠞⠁⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⠙⢾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠁⠀⡠⢾⠏⠀⠀⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀⠀⠀⠀⢠⠾⠴⠒⠉⢀⡞⠀⠀⠀⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⢤⣄⣀⡠⠤⠚⠁⠀⠀⠀⣠⠟⠀⠀⠀⠀⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⡀⠀⠀⠀⣀⡀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⣄⣀⣘⣯⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+          '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+        }, "\n"),
+      footer = '',
+    },
+    config = function(opts)
+      require('mini.starter').setup(opts.opts)
+    end
+  }
 })

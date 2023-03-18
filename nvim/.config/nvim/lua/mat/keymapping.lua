@@ -30,8 +30,8 @@ nmap('<Leader>sk', ':e ~/.config/nvim/lua/mat/keymapping.lua<CR>', { desc = 'Edi
 nmap('<Leader>so', ':e ~/.config/nvim/lua/mat/options.lua<CR>', { desc = 'Edit vim options' })
 nmap('<Leader>sl', ':e ~/.config/nvim/lua/mat/lsp.lua<CR>', { desc = 'Edit LSP settings' })
 nmap('<Leader>st', function() require('telescope.builtin').colorscheme() end)
-nmap('<Leader>tn', ':call RunNearestSpec()<CR>')
-nmap('<Leader>tf', ':call RunCurrentSpecFile()<CR>')
+-- nmap('<Leader>tn', ':call RunNearestSpec()<CR>')
+-- nmap('<Leader>tf', ':call RunCurrentSpecFile()<CR>')
 nmap('<Leader>p', '"_dP')
 nmap('<Leader>1', function() require("harpoon.ui").nav_file(1) end, { desc = 'Navigate to Harpoon file 1' })
 nmap('<Leader>2', function() require("harpoon.ui").nav_file(2) end, { desc = 'Navigate to Harpoon file 2' })
@@ -39,6 +39,7 @@ nmap('<Leader>3', function() require("harpoon.ui").nav_file(3) end, { desc = 'Na
 nmap('<Leader>4', function() require("harpoon.ui").nav_file(4) end, { desc = 'Navigate to Harpoon file 4' })
 nmap('<Leader>5', function() require("harpoon.ui").nav_file(5) end, { desc = 'Navigate to Harpoon file 5' })
 nmap('<Leader>6', function() require("harpoon.ui").nav_file(6) end, { desc = 'Navigate to Harpoon file 6' })
+nmap('<Leader>td', function() vim.cmd.TodoTelescope() end)
 nmap('ss', 'ggVG')
 nmap('<Leader>zi', '<C-w>_<bar><C-w>|')
 nmap('<Leader>zo', '<C-w>=')
@@ -51,4 +52,13 @@ nmap('<F4>', function()
   vim.diagnostic.config({ virtual_text = not vim.g.diagnostic_enabled })
   vim.g.diagnostic_enabled = not vim.g.diagnostic_enabled
   require('dapui').toggle()
+end)
+
+
+nmap('<Leader>te', function ()
+  require('harpoon.cmd-ui').toggle_quick_menu()
+end)
+
+nmap('<Leader>t1', function()
+  require('harpoon.tmux').sendCommand('right', 1)
 end)

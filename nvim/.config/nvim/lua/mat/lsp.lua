@@ -1,5 +1,6 @@
 vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { silent = true, desc = 'Show diagnostic' })
-vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { silent = true, desc = 'Go to previous diagnostic' })
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>',
+{ silent = true, desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { silent = true, desc = 'Go to next diagnostic' })
 vim.keymap.set('n', '<space>d', function() vim.cmd.Trouble() end, { silent = true })
 
@@ -9,6 +10,8 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, { silent = true })
   vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, { silent = true })
   vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { silent = true })
+  vim.keymap.set('n', '<Leader>q', function() vim.lsp.buf.code_action() end, { silent = true })
+  vim.keymap.set('n', '<Leader>lf', function() vim.lsp.buf.format() end, { silent = true })
 
   if client.server_capabilities.colorProvider then
     require('document-color').buf_attach(bufnr)
@@ -72,7 +75,16 @@ local servers = {
   -- tailwindcss = {},
   clojure_lsp = {},
   tsserver = {},
-  sorbet = {},
+  -- sorbet = {
+  --   cmd = {
+  --     'bundle',
+  --     'exec',
+  --     'srb',
+  --     'tc',
+  --     '--lsp',
+  --     '--disable-watchman'
+  --   },
+  -- },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -92,10 +104,7 @@ mason_lspconfig.setup({
 
 mason_lspconfig.setup_handlers({
   function(server_name)
-    require('lspconfig')[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name]
-    })
+    require('lspconfig')[server_name].setup(vim.tbl_deep_extend("keep", servers[server_name] or {},
+    { capabilities = capabilities, on_attach = on_attach }))
   end
 })
