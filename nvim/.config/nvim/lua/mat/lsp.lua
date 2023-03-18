@@ -1,7 +1,7 @@
-vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', {silent=true, desc = "Show diagnostic"})
-vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opt)
-vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opt)
-vim.keymap.set('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opt)
+vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { silent = true, desc = 'Show diagnostic' })
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { silent = true, desc = 'Go to previous diagnostic' })
+vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { silent = true, desc = 'Go to next diagnostic' })
+vim.keymap.set('n', '<space>d', function() vim.cmd.Trouble() end, { silent = true })
 
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -16,21 +16,30 @@ local on_attach = function(client, bufnr)
 end
 
 local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+luasnip.config.setup({})
+
 cmp.setup({
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<ESC>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -38,6 +47,8 @@ cmp.setup({
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
@@ -46,12 +57,6 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'buffer' },
-    { name = 'path',
-      option = {
-        trailing_slash = true,
-      }
-    }
   })
 })
 
@@ -73,8 +78,9 @@ local servers = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false }
     }
-  }
-  -- 'ruby_ls'
+  },
+  sqlls = {},
+  gopls = {}
 }
 
 require('mason').setup()

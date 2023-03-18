@@ -16,17 +16,8 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     opts = {
         options = {
-          globalstatus = false,
           theme = 'gruvbox'
         },
-        sections = {
-          lualine_c = {
-            {
-              'filename',
-              path = 3
-            }
-          }
-        }
       },
     dependencies = { {'kyazdani42/nvim-web-devicons', lazy = true } }
   },
@@ -121,7 +112,14 @@ require('lazy').setup({
   -- 'sbdchd/neoformat',
   'mbbill/undotree',
   'mattn/emmet-vim',
-  'ThePrimeAgen/harpoon',
+  {
+    'ThePrimeAgen/harpoon',
+    opts = {
+      menu = {
+        width = vim.api.nvim_win_get_width(0) - 24,
+      }
+    }
+  },
   'leafo/moonscript-vim',
   {
     'iamcco/markdown-preview.nvim',
@@ -136,7 +134,7 @@ require('lazy').setup({
   'rafamadriz/friendly-snippets',
   'MunifTanjim/nui.nvim',
   'skanehira/denops-docker.vim',
-  'Olical/conjure',
+  { 'Olical/conjure', enabled = false },
   'clojure-vim/vim-jack-in',
   'radenling/vim-dispatch-neovim',
   'purescript-contrib/purescript-vim',
@@ -205,5 +203,13 @@ require('lazy').setup({
   { dir = '~/projects/markdown-evaluate' },
   { 'numToStr/Comment.nvim', opts = {} },
   { 'folke/todo-comments.nvim', opts = {} },
-  { 'echasnovski/mini.surround', config = function() require('mini.surround').setup() end }
+  { 'echasnovski/mini.surround', config = function() require('mini.surround').setup() end },
+  { 'echasnovski/mini.pairs', config = function() require('mini.pairs').setup() end },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    opts = {
+      char = '┊',
+      show_trailing_blankline_indent = false,
+    },
+  },
 })
