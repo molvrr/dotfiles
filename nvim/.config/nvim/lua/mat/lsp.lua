@@ -66,7 +66,6 @@ cmp.setup({
 require('neodev').setup()
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 local servers = {
   rust_analyzer = {},
   solargraph = {},
@@ -75,24 +74,14 @@ local servers = {
   -- tailwindcss = {},
   clojure_lsp = {},
   tsserver = {},
-  -- sorbet = {
-  --   cmd = {
-  --     'bundle',
-  --     'exec',
-  --     'srb',
-  --     'tc',
-  --     '--lsp',
-  --     '--disable-watchman'
-  --   },
-  -- },
+  -- sorbet = {}
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false }
     }
   },
-  sqlls = {},
-  gopls = {}
+  gopls = {},
 }
 
 require('mason').setup()
