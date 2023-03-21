@@ -39,3 +39,25 @@ vim.api.nvim_buf_create_user_command(0, 'CodeEval', function()
 
   print(x, y)
 end, {})
+
+vim.api.nvim_create_autocmd('BufReadPost', {
+  pattern = {'*.gba', '*.nes'},
+  callback = function(ev)
+    vim.cmd('%!xxd')
+    vim.o.ft = 'xxd'
+  end
+})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern ={'*.gba', '*.nes'},
+  callback = function(ev)
+    vim.cmd('silent %!xxd -r')
+  end
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern ={'*.gba', '*.nes'},
+  callback = function(ev)
+    vim.cmd('%!xxd')
+  end
+})

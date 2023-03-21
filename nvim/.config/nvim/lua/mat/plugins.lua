@@ -243,8 +243,12 @@ require('lazy').setup({
       }, "\n"),
       footer = '',
     },
-    config = function(opts)
-      require('mini.starter').setup(opts.opts)
+    config = function(_, opts)
+      require('mini.starter').setup(opts)
     end
+  },
+  {
+    'ThePrimeagen/refactoring.nvim',
+    opts = {}
   }
 })
