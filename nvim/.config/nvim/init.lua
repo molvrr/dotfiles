@@ -1,6 +1,6 @@
-require('mat.plugins')
 require('mat.globals')
 require('mat.options')
+require('mat.lazy')
 require('mat.keymapping')
 require('mat.lsp')
 -- require('mat.utils') -- REMOVIDO POR, IRONICAMENTE, SER INÚTIL
@@ -59,5 +59,20 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern ={'*.gba', '*.nes'},
   callback = function(ev)
     vim.cmd('%!xxd')
+  end
+})
+
+vim.api.nvim_create_autocmd('FileReadPost', {
+  pattern = { '*.lisp' },
+  callback = function(ev)
+    require('plenary.job'):new({
+      command = 'ros', args = {
+        'run',
+        '--eval',
+        "'(ql:quickload :swank)'",
+        '--eval',
+        "'(swank:create-server :dont-close t)'"
+      }
+    }):sync()
   end
 })

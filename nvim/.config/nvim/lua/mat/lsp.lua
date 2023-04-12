@@ -1,8 +1,7 @@
-vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { silent = true, desc = 'Show diagnostic' })
-vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>',
-{ silent = true, desc = 'Go to previous diagnostic' })
+vim.keymap.set('n', '<Leader>h', '<cmd>lua vim.diagnostic.open_float()<CR>', { silent = true, desc = 'Show diagnostic' })
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { silent = true, desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { silent = true, desc = 'Go to next diagnostic' })
-vim.keymap.set('n', '<space>d', function() vim.cmd.Trouble() end, { silent = true })
+vim.keymap.set('n', '<Leader>d', function() vim.cmd.Trouble() end, { silent = true })
 
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -13,9 +12,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<Leader>q', function() vim.lsp.buf.code_action() end, { silent = true })
   vim.keymap.set('n', '<Leader>lf', function() vim.lsp.buf.format() end, { silent = true })
 
-  if client.server_capabilities.colorProvider then
+  --[[ if client.server_capabilities.colorProvider then
     require('document-color').buf_attach(bufnr)
-  end
+  end ]]
 end
 
 local cmp = require('cmp')
@@ -70,7 +69,6 @@ local servers = {
   rust_analyzer = {},
   solargraph = {},
   ocamllsp = {},
-  -- hls = {},
   -- tailwindcss = {},
   clojure_lsp = {},
   tsserver = {},
@@ -82,6 +80,7 @@ local servers = {
     }
   },
   gopls = {},
+  -- hls = {},
 }
 
 require('mason').setup()
