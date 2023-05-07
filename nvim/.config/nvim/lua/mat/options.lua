@@ -16,10 +16,17 @@ opt.splitbelow = true
 opt.splitright = true
 opt.foldmethod = 'indent'
 opt.foldenable = false
-opt.listchars = 'space:·'
+opt.listchars:append('space:·')
+opt.listchars:append('multispace:·------')
+opt.listchars:append('precedes:<')
+opt.listchars:append('extends:>')
+opt.listchars:append('lead:*')
+opt.listchars:append('trail:*')
+opt.fillchars:append('eob: ')
+opt.matchpairs:append('<:>')
 opt.list = false
---opt.scrolloff = 5
---opt.sidescrolloff = 5
+-- opt.scrolloff = 999
+-- opt.sidescrolloff = 999
 opt.hlsearch = false
 opt.swapfile = false
 opt.backup = false
@@ -37,6 +44,7 @@ vim.diagnostic.config({
 opt.smartcase = true
 opt.ignorecase = true
 opt.termguicolors = true
+-- opt.cmdheight = 0
 vim.g.mapleader = ' '
 vim.g.localleader = ','
 vim.g.loaded_python3_provider = 1
@@ -50,3 +58,7 @@ vim.g.vimtex_view_general_viewer = 'okular'
 vim.g.vimtex_view_general_options = '--unique file:@pdf\\#src:@line@tex'
 vim.g.vimtex_quickfix_open_on_warning = 0
 vim.g.vimtex_compiler_latexmk = { options = { '-shell-escape' } }
+
+vim.g.ftplugin_sql_omni_key = '<nop>'
+
+vim.g.zig_fmt_autosave = false

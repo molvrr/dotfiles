@@ -15,11 +15,19 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim', -- TODO: Exibir caminho completo dos arquivos
     opts = {
-        options = {
-          theme = 'gruvbox'
-        },
+      options = {
+        theme = 'gruvbox'
       },
-    dependencies = { {'kyazdani42/nvim-web-devicons', lazy = true } }
+      sections = {
+        lualine_c = {
+         {
+            'filename',
+            path = 3
+          },
+        }
+      }
+    },
+    dependencies = { { 'nvim-tree/nvim-web-devicons', lazy = true } }
   },
   'morhetz/gruvbox',
   'nvim-telescope/telescope-file-browser.nvim',
@@ -95,7 +103,7 @@ require('lazy').setup({
     build = ':TSUpdate',
     dependencies = 'nvim-treesitter/nvim-treesitter-textobjects'
   },
-  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-buffer',
@@ -105,7 +113,7 @@ require('lazy').setup({
     dependencies = {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      {'j-hui/fidget.nvim', opts = {}},
+      { 'j-hui/fidget.nvim', opts = {} },
       'folke/neodev.nvim'
     }
   },
@@ -130,7 +138,7 @@ require('lazy').setup({
   },
   'vim-test/vim-test',
   'saadparwaiz1/cmp_luasnip',
-  {'L3MON4D3/LuaSnip', config = function() require('luasnip.loaders.from_vscode').lazy_load() end},
+  { 'L3MON4D3/LuaSnip' },
   'rafamadriz/friendly-snippets',
   'MunifTanjim/nui.nvim',
   'skanehira/denops-docker.vim',
@@ -146,9 +154,10 @@ require('lazy').setup({
   'nkrkv/nvim-treesitter-rescript',
   'p00f/nvim-ts-rainbow',
   'artanikin/vim-synthwave84',
-  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
-    'mrshmllow/document-color.nvim', config = function()
+    'mrshmllow/document-color.nvim',
+    config = function()
       require("document-color").setup {
         mode = "background", -- "background" | "foreground" | "single"
       }
@@ -174,10 +183,10 @@ require('lazy').setup({
   'junegunn/vim-easy-align',
   'elixir-editors/vim-elixir',
   'mfussenegger/nvim-dap',
-  { 'rcarriga/nvim-dap-ui', opts = {} },
-  { 'suketa/nvim-dap-ruby', opts = {} },
+  { 'rcarriga/nvim-dap-ui',            opts = {} },
+  { 'suketa/nvim-dap-ruby',            opts = {} },
   { 'theHamsta/nvim-dap-virtual-text', opts = {} },
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',            opts = {} },
   'folke/zen-mode.nvim',
   {
     'nvim-neorg/neorg',
@@ -187,7 +196,8 @@ require('lazy').setup({
         ["core.defaults"] = {},
         ["core.norg.concealer"] = {},
         ["core.export"] = {}
-      }}
+      }
+    }
   },
   {
     'nvim-orgmode/orgmode',
@@ -202,9 +212,18 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim', opts = {} },
   { 'folke/todo-comments.nvim', opts = {} },
   { 'echasnovski/mini.surround', config = function() require('mini.surround').setup() end },
-  { 'echasnovski/mini.pairs', config = function() require('mini.pairs').setup() end },
+  {
+    'echasnovski/mini.pairs',
+    enabled = false,
+    config = function() require('mini.pairs').setup() end
+  },
+  {
+    'windwp/nvim-autopairs',
+    opts = {}
+  },
   {
     'lukas-reineke/indent-blankline.nvim',
+    enabled = false,
     opts = {
       char = '┊',
       show_trailing_blankline_indent = false,
@@ -215,28 +234,53 @@ require('lazy').setup({
     version = false,
     opts = {
       header = table.concat({
-          '⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡤⠖⠚⠛⠛⠛⠛⠒⠶⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⢶⠒⠒⠒⠦⣄',
-          '⠀⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⡄⠐⡄⠀⠀⡏⠑⡄⠀⠑⣄⠀⠀⠸⡆',
-          '⠀⠀⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⣵⠀⠀⢹⣤⣿⠀⠀⠈⢆⠀⢸⠇',
-          '⠀⠀⢀⣏⠤⠂⠀⠀⠀⠀⠀⠀⠀⠀⠸⠻⠟⡄⠀⠀⡟⠋⠆⣀⣤⡈⣦⡞⠀',
-          '⠀⣠⠟⠁⠀⠀⠀⠀⠀⠀⠀⣴⣶⣦⡄⠣⠴⠁⠀⢀⡌⠒⠀⠛⠛⠁⢸⠀⠀',
-          '⣰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀',
-          '⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⢔⣲⡿⠉⠛⠒⢄⠀⠀⠀⠀⠀⠀⢸⠀⠀',
-          '⠸⣆⡀⠀⠀⠀⠀⢀⡀⢀⠔⠉⠀⠀⠀⠀⠀⠀⠀⠈⡆⠀⠀⠀⠀⢀⡟⠀⠀',
-          '⠀⠀⠉⠻⣟⠋⠉⠉⡰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⢀⡾⠁⠀⠀',
-          '⠀⠀⠀⠀⠙⢦⡀⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⠀⠀⠀⣠⠞⠁⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⠙⢾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠁⠀⡠⢾⠏⠀⠀⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀⠀⠀⠀⢠⠾⠴⠒⠉⢀⡞⠀⠀⠀⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⢤⣄⣀⡠⠤⠚⠁⠀⠀⠀⣠⠟⠀⠀⠀⠀⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⡀⠀⠀⠀⣀⡀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⣄⣀⣘⣯⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-          '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
-        }, "\n"),
+        '⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡤⠖⠚⠛⠛⠛⠛⠒⠶⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⢶⠒⠒⠒⠦⣄',
+        '⠀⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⡄⠐⡄⠀⠀⡏⠑⡄⠀⠑⣄⠀⠀⠸⡆',
+        '⠀⠀⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⣵⠀⠀⢹⣤⣿⠀⠀⠈⢆⠀⢸⠇',
+        '⠀⠀⢀⣏⠤⠂⠀⠀⠀⠀⠀⠀⠀⠀⠸⠻⠟⡄⠀⠀⡟⠋⠆⣀⣤⡈⣦⡞⠀',
+        '⠀⣠⠟⠁⠀⠀⠀⠀⠀⠀⠀⣴⣶⣦⡄⠣⠴⠁⠀⢀⡌⠒⠀⠛⠛⠁⢸⠀⠀',
+        '⣰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀',
+        '⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⢔⣲⡿⠉⠛⠒⢄⠀⠀⠀⠀⠀⠀⢸⠀⠀',
+        '⠸⣆⡀⠀⠀⠀⠀⢀⡀⢀⠔⠉⠀⠀⠀⠀⠀⠀⠀⠈⡆⠀⠀⠀⠀⢀⡟⠀⠀',
+        '⠀⠀⠉⠻⣟⠋⠉⠉⡰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⢀⡾⠁⠀⠀',
+        '⠀⠀⠀⠀⠙⢦⡀⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⠀⠀⠀⣠⠞⠁⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⠙⢾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠁⠀⡠⢾⠏⠀⠀⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀⠀⠀⠀⢠⠾⠴⠒⠉⢀⡞⠀⠀⠀⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⢤⣄⣀⡠⠤⠚⠁⠀⠀⠀⣠⠟⠀⠀⠀⠀⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⡀⠀⠀⠀⣀⡀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⣄⣀⣘⣯⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
+        '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+      }, "\n"),
       footer = '',
     },
     config = function(opts)
       require('mini.starter').setup(opts.opts)
     end
-  }
+  },
+  {'kwakzalver/duckytype.nvim', opts = {}},
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim'
+    }
+  },
+  'scalameta/nvim-metals',
+  { 'TimUntersberger/neogit', opts = {} },
+  {
+    dir = '~/projects/spotify.nvim/',
+    -- 'molvrr/spotify.nvim',
+    -- enabled = false,
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+    callback = 'http://localhost:3000/spotify-nvim', -- TODO: Passar porta como argumento do Job
+    client_id = os.getenv("SMUDGE_CLIENT_ID"),
+    client_secret = os.getenv("SMUDGE_CLIENT_SECRET")
+  }},
+  { dir = '~/projects/babel.nvim/' }
 })

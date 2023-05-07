@@ -1,8 +1,8 @@
-vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { silent = true, desc = 'Show diagnostic' })
+vim.keymap.set('n', '<Leader>h', '<cmd>lua vim.diagnostic.open_float()<CR>', { silent = true, desc = 'Show diagnostic' })
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>',
 { silent = true, desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { silent = true, desc = 'Go to next diagnostic' })
-vim.keymap.set('n', '<space>d', function() vim.cmd.Trouble() end, { silent = true })
+vim.keymap.set('n', '<Leader>d', function() vim.cmd.Trouble() end, { silent = true })
 
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -20,7 +20,6 @@ end
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-
 luasnip.config.setup({})
 
 cmp.setup({
@@ -36,7 +35,7 @@ cmp.setup({
     ['<ESC>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+      select = false,
     }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -67,7 +66,25 @@ require('neodev').setup()
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+local configs = require('lspconfig.configs')
+local lspconfig = require('lspconfig')
+
+configs.typst_lsp = {
+  default_config = {
+    cmd = {'typst-lsp'},
+    filetypes = {'sql'},
+    root_dir = function (fname)
+      return nil
+    end,
+    single_file_support = true,
+    settings = {}
+  }
+}
+
 local servers = {
+  zls = {},
+  volar = {},
+  rescriptls = {},
   rust_analyzer = {},
   solargraph = {},
   ocamllsp = {},
@@ -85,14 +102,14 @@ local servers = {
   --     '--disable-watchman'
   --   },
   -- },
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false }
-    }
-  },
-  sqlls = {},
-  gopls = {}
+  -- lua_ls = {
+  --   Lua = {
+  --     workspace = { checkThirdParty = false },
+  --     telemetry = { enable = false }
+  --   }
+  -- },
+  -- sqlls = {},
+  -- gopls = {}
 }
 
 require('mason').setup()

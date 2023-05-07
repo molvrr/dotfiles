@@ -16,14 +16,13 @@ end
 
 local CONFIG_PATH = vim.fn.stdpath('config')
 
-nmap('<Leader>u', function() vim.cmd.UndotreeToggle() end, { desc = 'Toggle Undotree' })
+nmap('<Leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle Undotree' })
 nmap('<C-e>', require("harpoon.ui").toggle_quick_menu, { desc = 'Toggle Harpoon quick menu' })
 nmap('Q', '<nop>')
 nmap('<Leader>a', require("harpoon.mark").add_file)
-nmap('<Leader>ff', '<cmd>Telescope find_files <CR>')
-nmap('<Leader>fe', '<cmd>Telescope file_browser<CR>')
-nmap('<Leader>fg', '<cmd>Telescope live_grep<CR>')
-nmap('<Leader>fb', '<cmd>Telescope buffers<CR>')
+nmap('<Leader>e', vim.cmd.NeoTreeFocusToggle)
+nmap('<Leader>f', '<cmd>Telescope find_files <CR>')
+nmap('<Leader>/', '<cmd>Telescope live_grep<CR>')
 nmap('<Leader>si', function() vim.cmd.e(CONFIG_PATH .. '/init.lua') end, { desc = 'Edit init.lua' })
 nmap('<Leader>sp', ':e ~/.config/nvim/lua/mat/plugins.lua<CR>', { desc = 'Edit plugins' })
 nmap('<Leader>sk', ':e ~/.config/nvim/lua/mat/keymapping.lua<CR>', { desc = 'Edit keymaps' })
@@ -54,11 +53,14 @@ nmap('<F4>', function()
   require('dapui').toggle()
 end)
 
-
-nmap('<Leader>te', function ()
-  require('harpoon.cmd-ui').toggle_quick_menu()
-end)
-
 nmap('<Leader>t1', function()
   require('harpoon.tmux').sendCommand('right', 1)
 end)
+
+nmap('<C-c>', '<Esc>')
+
+nmap('<Leader>p', require('spotify').prompt)
+nmap('+', function() require('spotify.player').increase_volume(10) end)
+nmap('-', function() require('spotify.player').decrease_volume(10) end)
+
+nmap('<leader>cc', require('babel').eval_code)
