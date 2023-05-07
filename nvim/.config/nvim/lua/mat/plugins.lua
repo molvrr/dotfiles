@@ -1,17 +1,4 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
-require('lazy').setup({
+local M = {
   {
     'nvim-lualine/lualine.nvim', -- TODO: Exibir caminho completo dos arquivos
     opts = {
@@ -140,9 +127,7 @@ require('lazy').setup({
   'saadparwaiz1/cmp_luasnip',
   { 'L3MON4D3/LuaSnip' },
   'rafamadriz/friendly-snippets',
-  'MunifTanjim/nui.nvim',
-  'skanehira/denops-docker.vim',
-  { 'Olical/conjure', enabled = false },
+  { 'Olical/conjure', ft = 'lisp' },
   'clojure-vim/vim-jack-in',
   'radenling/vim-dispatch-neovim',
   'purescript-contrib/purescript-vim',
@@ -163,7 +148,7 @@ require('lazy').setup({
       }
     end
   },
-  'jubnzv/virtual-types.nvim',
+  -- 'jubnzv/virtual-types.nvim',
   'tpope/vim-dadbod',
   'tpope/vim-abolish',
   'tpope/vim-rails',
@@ -177,7 +162,6 @@ require('lazy').setup({
   'preservim/vimux',
   { 'windwp/nvim-projectconfig', opts = {} },
   'vim-crystal/vim-crystal',
-  'jubnzv/virtual-types.nvim',
   'pbrisbin/vim-mkdir',
   'Olical/aniseed',
   'junegunn/vim-easy-align',
@@ -254,11 +238,10 @@ require('lazy').setup({
       }, "\n"),
       footer = '',
     },
-    config = function(opts)
-      require('mini.starter').setup(opts.opts)
+    config = function(_, opts)
+      require('mini.starter').setup(opts)
     end
   },
-  {'kwakzalver/duckytype.nvim', opts = {}},
   {
     'nvim-neo-tree/neo-tree.nvim',
     dependencies = {
@@ -267,7 +250,6 @@ require('lazy').setup({
       'MunifTanjim/nui.nvim'
     }
   },
-  'scalameta/nvim-metals',
   { 'TimUntersberger/neogit', opts = {} },
   {
     dir = '~/projects/spotify.nvim/',
@@ -283,4 +265,6 @@ require('lazy').setup({
     client_secret = os.getenv("SMUDGE_CLIENT_SECRET")
   }},
   { dir = '~/projects/babel.nvim/' }
-})
+}
+
+return M

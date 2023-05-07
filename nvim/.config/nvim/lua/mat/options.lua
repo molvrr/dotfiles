@@ -10,7 +10,7 @@ opt.autoindent = true
 opt.number = true
 opt.relativenumber = true
 opt.clipboard = 'unnamedplus'
-opt.wrap = false
+opt.wrap = true
 opt.linebreak = true
 opt.splitbelow = true
 opt.splitright = true
@@ -45,6 +45,7 @@ opt.smartcase = true
 opt.ignorecase = true
 opt.termguicolors = true
 -- opt.cmdheight = 0
+opt.fillchars:append("eob: ")
 vim.g.mapleader = ' '
 vim.g.localleader = ','
 vim.g.loaded_python3_provider = 1
