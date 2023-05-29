@@ -3,8 +3,7 @@ vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { silent = 
 vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { silent = true, desc = 'Go to next diagnostic' })
 vim.keymap.set('n', '<Leader>d', function() vim.cmd.Trouble() end, { silent = true })
 
-local on_attach = function(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+local on_attach = function(_, bufnr)
   vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { silent = true })
   vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, { silent = true })
   vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, { silent = true })
@@ -12,9 +11,19 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<Leader>q', function() vim.lsp.buf.code_action() end, { silent = true })
   vim.keymap.set('n', '<Leader>lf', function() vim.lsp.buf.format() end, { silent = true })
 
-  --[[ if client.server_capabilities.colorProvider then
-    require('document-color').buf_attach(bufnr)
-  end ]]
+  -- vim.api.nvim_create_autocmd({'CursorHold', 'CursorHoldI'}, {
+  --   buffer = bufnr,
+  --   callback = function()
+  --     vim.lsp.buf.document_highlight()
+  --   end
+  -- })
+  --
+  -- vim.api.nvim_create_autocmd({'CursorMoved'}, {
+  --   buffer = bufnr,
+  --   callback = function()
+  --     vim.lsp.buf.clear_references()
+  --   end
+  -- })
 end
 
 local cmp = require('cmp')
@@ -57,22 +66,18 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
   })
 })
-
-require('neodev').setup()
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local configs = require('lspconfig.configs')
-local lspconfig = require('lspconfig')
 
 configs.typst_lsp = {
   default_config = {
     cmd = {'typst-lsp'},
     filetypes = {'sql'},
-    root_dir = function (fname)
+    root_dir = function (_)
       return nil
     end,
     single_file_support = true,
@@ -100,7 +105,7 @@ mason_lspconfig.setup({
 
 mason_lspconfig.setup_handlers({
   function(server_name)
-    require('lspconfig')[server_name].setup(vim.tbl_deep_extend("keep", servers[server_name] or {},
-    { capabilities = capabilities, on_attach = on_attach }))
+    require('lspconfig')[server_name].setup({ capabilities = capabilities, on_attach = on_attach, settings = servers[server_name] })
   end
 })
+

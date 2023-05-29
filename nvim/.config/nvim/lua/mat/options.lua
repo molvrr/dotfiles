@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+opt.syntax = 'off'
 opt.mouse = nil
 opt.spell = false
 opt.tabstop = 2
