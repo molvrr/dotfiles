@@ -8,8 +8,7 @@ require('mat.lsp')
 local themes = {'gruvbox', 'nofrils-dark', 'aomi-grayscale'}
 local theme = themes[math.floor(math.random() * #themes) + 1]
 
--- vim.cmd.colorscheme('matheme')
-vim.cmd.colorscheme('cake16')
+vim.cmd.colorscheme('gruvbox')
 
 vim.cmd.highlight('MiniStarterHeader guifg=#aa00aa')
 
@@ -21,6 +20,13 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = '*.typ',
   callback = function()
     vim.bo.ft = 'typst'
+  end
+})
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.re',
+  callback = function()
+    vim.bo.ft = 'reason'
   end
 })
 
@@ -42,45 +48,38 @@ local function create_job(args)
   })
 end
 
-vim.api.nvim_create_user_command('Rm', function(e)
-  local args = e.fargs
-
-  print(vim.inspect(args))
-
-  for _, v in ipairs(args) do
-    local file = vim.fn.expand(v)
-  end
-end, { nargs = '+', bang = true })
-
 vim.cmd.hi('LspReferenceText guibg=#393737 guifg=#D8D8D8')
 vim.cmd.hi('link LspReferenceRead LspReferenceText')
 vim.cmd.hi('link LspReferenceWrite LspReferenceText')
 
-vim.api.nvim_create_user_command('Tonote', function(e)
-  print(vim.inspect(e))
-end, { range = true })
+vim.api.nvim_create_user_command('ToggleFormat', function(e)
+  vim.g.format_on_save = not vim.g.format_on_save
+end, {})
 
+vim.api.nvim_create_autocmd({'BufWritePre'}, {
+  callback = function(e)
+    if not vim.g.format_on_save then
+      return nil
+    end
 
--- %f
-
-local function status_line()
-  local file = ' %f'
-  local line = '%50(%l:%c %)'
-
-  local branch = vim.fn.system('git branch --show-current')
-  branch = string.sub(branch, 1, #branch - 1)
-
-  local t = { file, '%=', line, branch }
-
-  vim.wo.stl = table.concat(t)
-end
-
-local id = vim.api.nvim_create_augroup('StlBoa', {})
-
-vim.api.nvim_create_autocmd({ 'WinEnter', 'WinLeave', 'VimEnter', 'BufEnter' }, {
-  group = id,
-  callback = function()
-    status_line()
+    vim.lsp.buf.format({ bufnr = e.buf })
   end
 })
 
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+parser_config.nu = {
+  install_info = {
+    url = "https://github.com/nushell/tree-sitter-nu",
+    files = { "src/parser.c" },
+    branch = "main",
+  },
+  filetype = "nu",
+}
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.nu',
+  callback = function()
+    vim.bo.ft = 'nu'
+  end
+})

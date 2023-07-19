@@ -2,11 +2,12 @@ local t = {
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
+        autotag = { enable = true },
         indent = { enable = true },
         additional_vim_regex_highlighting = false,
         auto_install = false,
         highlight = {
-          enable = false,
+          enable = true,
           disable = function(lang, buf)
             local max_filesize = 100 * 1024 -- 100 KB
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))

@@ -17,8 +17,26 @@ local babel = { dir = '~/projects/babel.nvim/' }
 
 local matheme =  { dir = '~/projects/matheme.nvim/' }
 
+local pulapula =  { dir = '~/projects/pulapula.nvim/' }
+
+local boopline = {
+  dir = '~/projects/boopline.nvim/',
+  opts = {
+    left = { 'git_branch' },
+    middle = {},
+    right = {}
+  }
+}
+
+local coq = {
+  dir = '~/projects/coq.nvim/',
+}
+
 return {
-  spotify,
-  babel,
-  matheme
+  -- spotify,
+  -- babel,
+  matheme,
+  boopline,
+  coq
+  -- pulapula
 }

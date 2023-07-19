@@ -14,7 +14,7 @@ local M = {
   'mbbill/undotree',
   'mattn/emmet-vim',
   { 'ThePrimeAgen/harpoon', dependencies = { 'nvim-lua/plenary.nvim' } },
-  { 'Olical/conjure', ft = 'lisp' },
+  { 'Olical/conjure', ft = { 'lisp', 'racket' } },
   'clojure-vim/vim-jack-in',
   'nvim-treesitter/playground',
   'airblade/vim-gitgutter',
@@ -31,7 +31,7 @@ local M = {
   { 'windwp/nvim-projectconfig', opts = {} },
   'pbrisbin/vim-mkdir',
   'Olical/aniseed',
-  'junegunn/vim-easy-align',
+  -- 'junegunn/vim-easy-align',
   'elixir-editors/vim-elixir',
   { 'folke/which-key.nvim',            opts = {} },
   'folke/zen-mode.nvim',
@@ -49,8 +49,8 @@ local M = {
   },
   'folke/trouble.nvim',
   { 'numToStr/Comment.nvim', opts = {} },
-  --   { 'folke/todo-comments.nvim', opts = {} }, -- zoa a tela inicial
-  { 'echasnovski/mini.surround', eanabled = false, config = function() require('mini.surround').setup() end },
+  { 'folke/todo-comments.nvim', opts = { signs = false } }, -- zoa a tela inicial
+  { 'echasnovski/mini.surround', config = function() require('mini.surround').setup() end },
   {
     'echasnovski/mini.pairs',
     enabled = false,
@@ -74,7 +74,18 @@ local M = {
   --   'ryanpcmcquen/true-monochrome_vim',
   'eihigh/vim-aomi-grayscale',
   'L3MON4D3/LuaSnip',
-  'saadparwaiz1/cmp_luasnip'
+  'saadparwaiz1/cmp_luasnip',
+  { 'echasnovski/mini.align', config = function() require('mini.align').setup() end },
+  { 'windwp/nvim-ts-autotag' },
+  { 'nvim-pack/nvim-spectre' },
+  { 'navarasu/onedark.nvim' },
+  -- { 'nvim-lualine/lualine.nvim', opts = {} },
+  { 'wlangstroth/vim-racket' },
+  { 'LnL7/vim-nix' },
+  { 'scalameta/nvim-metals' },
+  'danielo515/nvim-treesitter-reason',
+  -- 'Exafunction/codeium.vim'
+  'github/copilot.vim'
 }
 
 return M

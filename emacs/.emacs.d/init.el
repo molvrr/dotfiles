@@ -1,12 +1,14 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
+(electric-pair-mode 1)
 (scroll-bar-mode 0)
 (global-display-line-numbers-mode)
+(ivy-mode 1)
 
-(add-to-list 'image-types 'svg) ; remover após emacs 29
-(setq scroll-step 1)
+(add-to-list 'image-types 'svg) ; remover após emacs 29 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (setq auto-window-vscroll nil)
+(setq ring-bell-function (lambda ()))
 (setq display-line-numbers-type 'relative)
 (setq make-backup-files nil)
 (setq create-lockfiles nil)
@@ -23,6 +25,12 @@
 (setq lsp-headerline-breadcrumb-enable t)
 (setq lsp-headerline-breadcrumb-icons-enable nil)
 (setq use-package-always-ensure t)
+(setq org-roam-directory "~/notes")
+(setq org-return-follows-link t)
+(setq org-confirm-babel-evaluate nil)
+(setq calibredb-root-dir "/media/mateus/Arquivos/Mateus/Calibre")
+(setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
+(setq calibredb-library-alist '(("/media/mateus/Arquivos/Mateus/Calibre")))
 
 (load custom-file t)
 
@@ -97,11 +105,12 @@
   (find-file user-init-file))
 
 (define-key evil-normal-state-map (kbd "<SPC>e") 'boop)
-(define-key evil-normal-state-map (kbd "<SPC>f") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd "<SPC>pf") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd "<SPC>p/") 'projectile-ripgrep)
 
-(use-package exec-path-from-shell
-  :config
-  (exec-path-from-shell-initialize))
+;(use-package exec-path-from-shell
+;  :config
+;  (exec-path-from-shell-initialize))
 
 (use-package ripgrep)
 (use-package haskell-mode)
@@ -124,8 +133,45 @@
 (use-package docker)
 (use-package docker-compose-mode)
 (use-package dockerfile-mode)
-(use-package smudge
+
+
+(defun org-roam-node-extract
+    ()
+  (interactive)
+  (progn
+    (kill-region (point) (mark))
+    (org-roam-node-find)
+    (yank)))
+
+(use-package org-roam
   :config
-  (global-smudge-remote-mode)
-  (setq smudge-oauth2-client-id (getenv "SMUDGE_CLIENT_ID"))
-  (setq smudge-oauth2-client-secret (getenv "SMUDGE_CLIENT_SECRET")))
+  (org-roam-db-autosync-mode)
+  :bind
+  (("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)))
+
+(add-hook 'org-mode-hook (lambda () (local-set-key (kbd "C-c n x") #'org-roam-node-extract)))
+
+(use-package org)
+
+(use-package ox-gfm)
+
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
+(use-package which-key
+  :config
+  (which-key-mode))
+
+(use-package osm
+  :bind ("C-c m" . osm-prefix-map) ;; Alternative: `osm-home'
+
+  :custom
+  ;; Take a look at the customization group `osm' for more options.
+  (osm-server 'default) ;; Configure the tile server
+  (osm-copyright t)     ;; Display the copyright information
+
+  :init
+  ;; Load Org link support
+  (with-eval-after-load 'org
+    (require 'osm-ol)))

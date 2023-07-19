@@ -21,7 +21,15 @@ nmap('<C-e>', require("harpoon.ui").toggle_quick_menu, { desc = 'Toggle Harpoon 
 nmap('Q', '<nop>')
 nmap('<Leader>a', require("harpoon.mark").add_file)
 nmap('<Leader>e', vim.cmd.NeoTreeFocusToggle)
-nmap('<Leader>f', require('telescope.builtin').find_files)
+nmap('<Leader>f', function()
+  local ok = pcall(function()
+    require('telescope.builtin').git_files(require('telescope.themes').get_dropdown({ previewer = false }))
+  end)
+
+  if not ok then
+    require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({ previewer = false }))
+  end
+end)
 nmap('<Leader>/', require('telescope.builtin').live_grep)
 nmap('<Leader>b', require('telescope.builtin').buffers)
 nmap('<Leader>si', function() vim.cmd.e(CONFIG_PATH .. '/init.lua') end, { desc = 'Edit init.lua' })
@@ -52,10 +60,16 @@ nmap('<F4>', function()
   require('dapui').toggle()
 end)
 
-nmap('<C-c>', '<Esc>')
+vim.keymap.set('i', '<C-c>', '<Esc>')
 
-nmap('<Leader>p', require('spotify').prompt)
+--[[ nmap('<Leader>p', require('spotify').prompt)
 nmap('+', function() require('spotify.player').increase_volume(10) end)
 nmap('-', function() require('spotify.player').decrease_volume(10) end)
+]]
+-- nmap('<leader>cc', require('babel').eval_code)
 
-nmap('<leader>cc', require('babel').eval_code)
+-- nmap('<C-j>', require('pulapula').move_down)
+-- nmap('<C-k>', require('pulapula').move_up)
+-- nmap('<C-h>', require('pulapula').move_left)
+-- nmap('<C-l>', require('pulapula').move_right)
+-- nmap('<C-w>o', require('pulapula').maximize)

@@ -64,3 +64,5 @@ vim.g.vimtex_compiler_latexmk = { options = { '-shell-escape' } }
 vim.g.ftplugin_sql_omni_key = '<nop>'
 
 vim.g.zig_fmt_autosave = false
+
+vim.g.copilot_assume_mapped = true
