@@ -3,7 +3,6 @@
 (electric-pair-mode 1)
 (scroll-bar-mode 0)
 (global-display-line-numbers-mode)
-(ivy-mode 1)
 
 (add-to-list 'image-types 'svg) ; remover após emacs 29 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
