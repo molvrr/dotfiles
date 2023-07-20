@@ -1,3 +1,4 @@
 nvim/.config/nvim/plugin/packer_compiled.lua
 nvim/.config/nvim/projects/
 nvim/.config/nvim/lua/init.lua
+emacs/.emacs.d/auto-save-list/

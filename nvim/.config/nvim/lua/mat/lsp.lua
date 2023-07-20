@@ -100,23 +100,23 @@ local servers = {
 require('mason').setup()
 local mason_lspconfig = require('mason-lspconfig')
 
-mason_lspconfig.setup({
+--[[ mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers)
 })
-
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    require('lspconfig')[server_name].setup({ capabilities = capabilities, on_attach = on_attach, settings = servers[server_name] })
-  end
-})
-
-require('lspconfig').solargraph.setup({ capabilities = capabilities, on_attach = on_attach })
-require('lspconfig').elmls.setup({ capabilities = capabilities, on_attach = on_attach })
-require('lspconfig').gopls.setup({ capabilities = capabilities, on_attach = on_attach })
-require('lspconfig').hls.setup({ capabilities = capabilities, on_attach = on_attach })
-require('lspconfig').ocamllsp.setup({ capabilities = capabilities, on_attach = on_attach })
-require('lspconfig').kotlin_language_server.setup({ capabilities = capabilities, on_attach = on_attach })
-require('lspconfig').rnix.setup({ capabilities = capabilities, on_attach = on_attach })
+]]
+-- mason_lspconfig.setup_handlers({
+--   function(server_name)
+--     require('lspconfig')[server_name].setup({ capabilities = capabilities, on_attach = on_attach, settings = servers[server_name] })
+--   end
+-- })
+--
+-- require('lspconfig').solargraph.setup({ capabilities = capabilities, on_attach = on_attach })
+-- require('lspconfig').elmls.setup({ capabilities = capabilities, on_attach = on_attach })
+-- require('lspconfig').gopls.setup({ capabilities = capabilities, on_attach = on_attach })
+-- require('lspconfig').hls.setup({ capabilities = capabilities, on_attach = on_attach })
+-- require('lspconfig').ocamllsp.setup({ capabilities = capabilities, on_attach = on_attach })
+-- require('lspconfig').kotlin_language_server.setup({ capabilities = capabilities, on_attach = on_attach })
+-- require('lspconfig').rnix.setup({ capabilities = capabilities, on_attach = on_attach })
 
 local metals_config = require("metals").bare_config()
 
