@@ -86,14 +86,14 @@ configs.typst_lsp = {
 }
 
 local servers = {
-  -- elixirls = {},
-  -- zls = {},
-  -- volar = {},
-  -- rescriptls = {},
+  elixirls = {},
+  zls = {},
+  volar = {},
+  rescriptls = {},
   rust_analyzer = {},
-  -- solargraph = {},
-  -- ocamllsp = {},
-  -- clojure_lsp = {},
+  solargraph = {},
+  ocamllsp = {},
+  clojure_lsp = {},
   tsserver = {},
 }
 
@@ -110,27 +110,9 @@ local mason_lspconfig = require('mason-lspconfig')
 --   end
 -- })
 --
--- require('lspconfig').solargraph.setup({ capabilities = capabilities, on_attach = on_attach })
--- require('lspconfig').elmls.setup({ capabilities = capabilities, on_attach = on_attach })
--- require('lspconfig').gopls.setup({ capabilities = capabilities, on_attach = on_attach })
--- require('lspconfig').hls.setup({ capabilities = capabilities, on_attach = on_attach })
--- require('lspconfig').ocamllsp.setup({ capabilities = capabilities, on_attach = on_attach })
--- require('lspconfig').kotlin_language_server.setup({ capabilities = capabilities, on_attach = on_attach })
--- require('lspconfig').rnix.setup({ capabilities = capabilities, on_attach = on_attach })
 
-local metals_config = require("metals").bare_config()
+local lspconfig = require('lspconfig')
 
-metals_config.capabilities = capabilities
-metals_config.on_attach = on_attach
-
-local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-  -- NOTE: You may or may not want java included here. You will need it if you
-  -- want basic Java support but it may also conflict if you are using
-  -- something like nvim-jdtls which also works on a java filetype autocmd.
-  pattern = { "scala", "sbt", "java" },
-  callback = function()
-    require("metals").initialize_or_attach(metals_config)
-  end,
-  group = nvim_metals_group,
-})
+for server, settings in pairs(servers) do
+  lspconfig[server].setup({ capabilities = capabilities, on_attach = on_attach })
+end
