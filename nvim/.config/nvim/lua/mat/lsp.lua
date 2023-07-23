@@ -95,6 +95,7 @@ local servers = {
   ocamllsp = {},
   clojure_lsp = {},
   tsserver = {},
+  rnix = {},
 }
 
 require('mason').setup()
