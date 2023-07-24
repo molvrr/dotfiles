@@ -542,3 +542,6 @@ let-env config = {
     }
   ]
 }
+
+alias homu = home-manager switch --flake ~/nixos/home#mateus
+alias shisutemu = sudo nixos-rebuild switch --flake ~/nixos/system#
