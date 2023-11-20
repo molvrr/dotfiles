@@ -1,3 +1,0 @@
-echo $SHELL
-nix-shell
-nix-shell --help

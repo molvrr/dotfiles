@@ -1,65 +1,74 @@
+(add-to-list 'image-types 'svg) ; remover após emacs 29 (setq scroll-step 1)
+(setq
+ auto-save-default nil
+ auto-window-vscroll nil
+ backup-inhibited t
+ completion-auto-help t
+ create-lockfiles nil
+ custom-file (expand-file-name "custom.el" user-emacs-directory)
+ display-line-numbers-type 'relative
+ eldoc-echo-area-use-multiline-p nil
+ inhibit-startup-screen t
+ make-backup-files nil
+ org-agenda-files '("~/notes/agenda.org")
+ org-confirm-babel-evaluate nil
+ org-hide-emphasis-markers t
+ org-return-follows-link t
+ org-roam-directory "~/notes"
+ org-src-tab-acts-natively t
+ ring-bell-function (lambda ())
+ default-input-method "portuguese-prefix"
+ scroll-conservatively 10000
+ shell-file-name "/run/current-system/sw/bin/bash"
+ straight-use-package-by-default t
+ ;; ido-everywhere t
+ ;; ido-enable-flex-matching t
+ word-wrap t)
+
+(setq-default
+ display-line-numbers-width 3
+ straight-use-package-by-default t
+ truncate-lines t
+ tab-width 2)
+
+;; (ido-mode 1)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (electric-pair-mode 1)
 (scroll-bar-mode 0)
 (global-display-line-numbers-mode)
-
-(add-to-list 'image-types 'svg) ; remover após emacs 29 (setq scroll-step 1)
-(setq scroll-conservatively 10000)
-(setq auto-window-vscroll nil)
-(setq ring-bell-function (lambda ()))
-(setq display-line-numbers-type 'relative)
-(setq make-backup-files nil)
-(setq create-lockfiles nil)
-(setq truncate-lines t)
-(setq inhibit-startup-screen t)
-(setq org-src-tab-acts-natively t)
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(setq lsp-log-io nil)
-(setq lsp-ui-sideline-show-code-actions nil)
-(setq lsp-ui-sideline-show-hover nil)
-(setq lsp-ui-sideline-show-diagnostics t)
-(setq lsp-keymap-prefix "C-c l")
-(setq lsp-restart 'auto-restart)
-(setq lsp-headerline-breadcrumb-enable t)
-(setq lsp-headerline-breadcrumb-icons-enable nil)
-(setq use-package-always-ensure t)
-(setq org-roam-directory "~/notes")
-(setq org-return-follows-link t)
-(setq org-confirm-babel-evaluate nil)
-(setq calibredb-root-dir "/media/mateus/Arquivos/Mateus/Calibre")
-(setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
-(setq calibredb-library-alist '(("/media/mateus/Arquivos/Mateus/Calibre")))
+(savehist-mode)
+(auto-revert-mode)
+(global-hl-line-mode)
 
 (load custom-file t)
 
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")))
-(package-initialize)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
+(straight-use-package 'use-package)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-(require 'use-package-ensure)
 
 (use-package evil
   :init
   (setq evil-kill-on-visual-paste nil)
   (setq evil-search-module 'evil-search)
   (setq evil-vplist-window-right t)
-  (setq evil-undo-system 'undo-fu)
-  (setq evil-want-keybinding nil)
-  :config
-  (evil-mode 1))
+  (setq evil-undo-system 'undo-redo)
+  (setq evil-want-keybinding nil))
 
-(use-package undo-fu)
+;; (use-package undo-fu)
 
 (use-package evil-collection
   :after evil
@@ -71,45 +80,23 @@
   :config
   (global-evil-surround-mode 1))
 
-(use-package gruvbox-theme
-  :init
-  (load-theme 'gruvbox t))
-
-(use-package ivy
-  :config
-  (progn
-    (ivy-mode)
-    (setq projectile-completion-system 'ivy)))
-
-(use-package helm-projectile)
 (use-package magit)
 
-(use-package lsp-mode
-  :hook
-  ((ruby-mode . lsp-deferred)
-   (haskell-mode . lsp-deferred)
-   (typescript-mode . lsp-deferred)))
-
 (use-package flycheck
-  :init (global-flycheck-mode))
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-(use-package company)
+  :init (global-flycheck-mode)
+	:custom (flycheck-display-errors-function nil))
+
+(use-package flycheck-eglot
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
 (use-package counsel)
-(use-package typescript-mode)
+(use-package typescript-mode
+	:custom
+	(typescript-indent-level 2))
 
-(defun boop ()
-  (interactive)
-  (find-file user-init-file))
-
-(define-key evil-normal-state-map (kbd "<SPC>e") 'boop)
 (define-key evil-normal-state-map (kbd "<SPC>pf") 'projectile-find-file)
 (define-key evil-normal-state-map (kbd "<SPC>p/") 'projectile-ripgrep)
-
-;(use-package exec-path-from-shell
-;  :config
-;  (exec-path-from-shell-initialize))
 
 (use-package ripgrep)
 (use-package haskell-mode)
@@ -132,7 +119,6 @@
 (use-package docker)
 (use-package docker-compose-mode)
 (use-package dockerfile-mode)
-
 
 (defun org-roam-node-extract
     ()
@@ -174,3 +160,163 @@
   ;; Load Org link support
   (with-eval-after-load 'org
     (require 'osm-ol)))
+
+(use-package vertico
+	:functions vertico-mode
+	:custom
+	(vertico-cycle t)
+	(vertico-count 5)
+  :init
+  (vertico-mode))
+
+(use-package consult)
+
+(use-package embark
+  :bind(("C-." . embark-act)
+ 	("C-;" . embark-dwim)
+ 	("C-h B" . embark-bindings))
+  :config
+  (add-to-list 'display-buffer-alist
+ 	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+ 		 nil
+ 		 (window-parameters (mode-line-format . none)))))
+
+(use-package marginalia
+	:functions marginalia-mode
+  :init
+  (marginalia-mode))
+
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless basic)
+ 	completion-category-defaults nil
+ 	completion-category-overrides '((file (styles . (partial-completion))))))
+
+(use-package corfu
+  :init
+  (global-corfu-mode)
+  (setq corfu-popupinfo-delay 0.2)
+  (corfu-popupinfo-mode)
+  :straight (:files (:defaults "extensions/*"))
+  :custom
+  (corfu-auto t)
+  :bind
+  (:map corfu-map
+ 	("TAB" . corfu-next)
+ 	([tab] . corfu-next)
+ 	("S-TAB" . corfu-previous)
+ 	([backtab] . corfu-previous)))
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package eglot)
+
+(use-package doom-themes
+  :config
+	(let ((hour (caddr (decode-time))))
+		(cond
+		 ((< hour 6) (load-theme 'doom-gruvbox t))
+		 ((>= hour 17) (load-theme 'doom-gruvbox t))
+		 (t (load-theme 'doom-homage-white t)))))
+
+(defun page-title (url)
+	"URL meh."
+	(interactive)
+	(call-process "curl" nil "*beep*" nil "-s" url)
+	(let ((result))
+		(with-current-buffer "*beep*"
+			(setf result (caddr (assoc 'title (dom-by-tag (libxml-parse-html-region (point-min) (point-max)) 'title))))
+			(kill-current-buffer))
+		result))
+
+(defun org-insert-url-with-title ()
+	"Insert URL with title."
+	(interactive)
+	(let* ((url (read-string "URL: "))(title (page-title url)))
+		(org-insert-link nil url title)))
+
+(use-package org-roam-ui)
+(use-package rg)
+(use-package sly)
+(use-package elm-mode)
+(use-package direnv
+	:config
+	(direnv-mode))
+
+(add-hook 'elm-mode-hook (lambda ()
+													 (add-hook 'before-save-hook #'elm-format-buffer nil t)))
+
+(add-hook 'tuareg-mode-hook (lambda ()
+													 (add-hook 'before-save-hook #'eglot-format nil t)))
+
+
+(set-face-attribute 'org-level-1 nil :height 250)
+(set-face-attribute 'org-level-2 nil :height 150)
+(set-face-attribute 'org-document-title nil :height 300)
+
+(use-package markdown-mode)
+(use-package dune)
+
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+(global-set-key (kbd "C-c C-c") 'compile)
+(global-set-key (kbd "C-c C-r") 'recompile)
+
+(defun my-ansi-color (&optional beg end)
+  "Interpret ANSI color esacape sequence by colorifying cotent.
+Operate on selected region on whole buffer."
+  (interactive
+   (if (use-region-p)
+       (list (region-beginning) (region-end))
+     (list (point-min) (point-max))))
+  (ansi-color-apply-on-region beg end))
+
+(ignore-errors
+  (require 'ansi-color)
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
+
+(use-package clang-format)
+(use-package steam
+	:custom
+	(steam-username "molvr"))
+
+(use-package doom-modeline
+	:config
+	(doom-modeline-mode)
+	:custom
+	(doom-modeline-buffer-file-name-style 'relative-to-project))
+
+(use-package clojure-mode)
+(use-package cider)
+(use-package rust-mode)
+(use-package lean4-mode
+	:straight (lean4-mode
+						 :type git
+						 :host github
+						 :repo "leanprover/lean4-mode"
+						 :files ("*.el" "data"))
+	:commands (lean4-mode))
+
+(use-package ruby-mode)
+(use-package parinfer)
+(use-package restclient :config (use-package restclient-jq))
+(use-package elixir-mode)
+;; (use-package moldable-emacs
+;; 	:straight (moldable-emacs :type git :host github :repo "ag91/moldable-emacs")
+;; 	:load-path "~/.emacs.d/lisp/moldable-emacs/"
+;; 	:config
+;; 	(me-setup-molds))
+(use-package calibredb
+	:config
+	(setq calibredb-root-dir "/mnt/Arquivos/Mateus/Calibre")
+	(setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir)))
+
+(use-package lispy)
+(use-package fennel-mode)
