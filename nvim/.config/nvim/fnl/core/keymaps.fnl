@@ -1,0 +1,10 @@
+(local config-path (vim.fn.stdpath :config))
+(local builtin (require :telescope.builtin))
+(local find-files builtin.find_files)
+(local live-grep builtin.live_grep)
+(local help-tags builtin.help_tags)
+(local themes (require :telescope.themes))
+
+(vim.keymap.set :n "<Leader>f" (fn [] (find-files (themes.get_dropdown {:previewer false}))) {})
+(vim.keymap.set :n "<Leader>/" (fn [] (live-grep (themes.get_dropdown {:previewer false}))) {})
+(vim.keymap.set :n "<Leader>h" (fn [] (help-tags (themes.get_dropdown {:previewer false}))) {})
