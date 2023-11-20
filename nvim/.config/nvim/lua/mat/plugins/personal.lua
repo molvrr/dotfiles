@@ -13,6 +13,8 @@ local spotify = {
   }
 }
 
+local ido = { dir = '~/projects/ido.nvim/', opts = {} }
+
 local babel = { dir = '~/projects/babel.nvim/' }
 
 local matheme =  { dir = '~/projects/matheme.nvim/' }
@@ -32,11 +34,18 @@ local coq = {
   dir = '~/projects/coq.nvim/',
 }
 
+local tts = {
+  dir = '~/projects/tts.nvim/',
+  opts = {}
+}
+
 return {
   -- spotify,
   -- babel,
   matheme,
-  boopline,
-  coq
+  tts
+  -- ido
+  -- boopline,
+  -- coq
   -- pulapula
 }

@@ -10,20 +10,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { silent = true })
   vim.keymap.set('n', '<Leader>q', function() vim.lsp.buf.code_action() end, { silent = true })
   vim.keymap.set('n', '<Leader>lf', function() vim.lsp.buf.format() end, { silent = true })
-
-  -- vim.api.nvim_create_autocmd({'CursorHold', 'CursorHoldI'}, {
-  --   buffer = bufnr,
-  --   callback = function()
-  --     vim.lsp.buf.document_highlight()
-  --   end
-  -- })
-  --
-  -- vim.api.nvim_create_autocmd({'CursorMoved'}, {
-  --   buffer = bufnr,
-  --   callback = function()
-  --     vim.lsp.buf.clear_references()
-  --   end
-  -- })
+  vim.keymap.set('n', '<Leader>la', function() vim.lsp.buf.code_action() end, { silent = true })
 end
 
 local cmp = require('cmp')
@@ -36,14 +23,19 @@ cmp.setup({
       luasnip.lsp_expand(args.body)
     end,
   },
+  completion = {
+    completeopt = 'menu,menuone,noinsert'
+  },
   mapping = cmp.mapping.preset.insert({
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<ESC>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
+      select = true,
     }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -86,34 +78,57 @@ configs.typst_lsp = {
 }
 
 local servers = {
-  elixirls = {},
+  fennel_language_server = {},
+  fortls = {},
+  gopls = {},
   zls = {},
   volar = {},
   rescriptls = {},
   rust_analyzer = {},
-  solargraph = {},
   ocamllsp = {},
   clojure_lsp = {},
   tsserver = {},
   rnix = {},
+  kotlin_language_server = {},
+  -- eslint = {},
+  hls = {},
+  elmls = {}
 }
-
-require('mason').setup()
-local mason_lspconfig = require('mason-lspconfig')
-
---[[ mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(servers)
-})
-]]
--- mason_lspconfig.setup_handlers({
---   function(server_name)
---     require('lspconfig')[server_name].setup({ capabilities = capabilities, on_attach = on_attach, settings = servers[server_name] })
---   end
--- })
---
 
 local lspconfig = require('lspconfig')
 
 for server, settings in pairs(servers) do
   lspconfig[server].setup({ capabilities = capabilities, on_attach = on_attach })
 end
+
+require'lean'.setup({
+  on_attach = on_attach
+})
+
+lspconfig.elixirls.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  cmd = { "/nix/store/ny7z7vxl3y56qkxscpa0xdjwnwahpcqy-elixir-ls-0.17.3/bin/elixir-ls" }
+})
+
+local pid = vim.fn.getpid()
+
+lspconfig.omnisharp.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  cmd = { "/nix/store/x7jvi5ghljkw8k8xnmzbj71s21a709zq-omnisharp-roslyn-1.39.10/bin/OmniSharp", "--languageserver", "--hostPID", tostring(pid) }
+})
+
+lspconfig.solargraph.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  cmd = {
+    'docker',
+    'run',
+    '--rm',
+    '-i',
+    '-v',
+    '/home/mateus/projects/devise/:/app',
+    'rubylsp'
+  },
+})

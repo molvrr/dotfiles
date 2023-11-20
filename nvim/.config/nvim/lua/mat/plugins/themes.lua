@@ -1,6 +1,7 @@
 local t = {
   'zefei/cake16',
-  'morhetz/gruvbox'
+  'ellisonleao/gruvbox.nvim',
+  'navarasu/onedark.nvim'
 }
 
 return t
