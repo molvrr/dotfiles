@@ -1,10 +1,8 @@
-[
- {1 "ellisonleao/gruvbox.nvim" :opts {:transparent_mode true :bold false}}
+[{1 "ellisonleao/gruvbox.nvim" :opts {:transparent_mode true :bold false}}
  {1 "folke/noice.nvim"
- :dependencies ["MunifTanjim/nui.nvim"]
- :opts {
-   :presets {:lsp_doc_border true}
-   :notify {:enabled false}
-   :messages {:enabled false}
-   :cmdline {:enabled false}}}
-]
+  :enabled false
+  :dependencies ["MunifTanjim/nui.nvim"]
+  :opts {:presets {:lsp_doc_border true}
+         :notify {:enabled false}
+         :messages {:enabled false}
+         :cmdline {:enabled false}}}]

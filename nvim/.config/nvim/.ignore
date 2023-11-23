@@ -1,0 +1,3 @@
+lua/**/*.lua
+old/
+init.lua

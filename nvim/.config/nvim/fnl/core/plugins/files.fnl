@@ -1,1 +1,1 @@
-[{ 1 "stevearc/oil.nvim" :opts {}}]
+[{1 "stevearc/oil.nvim" :opts {}}]
