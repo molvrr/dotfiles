@@ -24,7 +24,13 @@
              :updatetime 700
              :wrap false})
 
-(local globals {:mapleader " " :maplocalleader "\\"})
+(vim.diagnostic.config {:virtual_text true})
+
+(local globals {:mapleader " "
+                :maplocalleader "\\"
+                :conjure#filetypes ["clojure" "fennel" "janet" "hy" "julia" "racket" "scheme" "lua" "lisp" "python" "sql"]
+                :conjure#client#scheme#stdio#command "petite"
+                :conjure#client#scheme#stdio#prompt_pattern "> $?"})
 
 (each [key value (pairs opts)] (tset vim.opt key value))
 

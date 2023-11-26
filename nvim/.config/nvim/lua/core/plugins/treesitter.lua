@@ -1,6 +1,9 @@
 -- [nfnl] Compiled from core/plugins/treesitter.fnl by https://github.com/Olical/nfnl, do not edit.
 local function _1_(_opts)
   local cfgs = require("nvim-treesitter.configs")
-  return cfgs.setup({indent = {enable = false}, playground = {enable = true}, highlight = {enable = true}, additional_vim_regex_highlighting = false})
+  local parser_config = (require("nvim-treesitter.parsers")).get_parser_configs()
+  cfgs.setup({indent = {enable = false}, playground = {enable = true}, highlight = {enable = true}, additional_vim_regex_highlighting = false})
+  do end (parser_config)["nu"] = {install_info = {url = "https://github.com/LhKipp/tree-sitter-nu", files = {"src/parser.c", "src/scanner.c"}, branch = "main"}, filetype = "nu"}
+  return vim.filetype.add({extension = {nu = "nu"}})
 end
 return {{"nvim-treesitter/nvim-treesitter", dependencies = {{"nvim-treesitter/playground"}}, config = _1_, build = ":TSUpdate"}}

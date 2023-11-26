@@ -1,7 +1,8 @@
 ;; List of servers
 (local servers [{:name :rust_analyzer :opts {}}
                 {:name :ocamllsp :opts {}}
-                {:name :lua_ls :opts {}}])
+                {:name :nushell :opts {}}
+                {:name :omnisharp :opts {:cmd ["OmniSharp"]}}])
 
 (fn normal-map [lhs rhs fun ?opts]
   (let [opts (or ?opts {:silent true})]
@@ -17,6 +18,13 @@
   (normal-map "K" vim.lsp.buf.hover)
   (normal-map "<Leader>lf" vim.lsp.buf.format)
   (normal-map "<Leader>la" vim.lsp.buf.code_action))
+
+; (local open-floating-preview vim.lsp.util.open_floating_preview)
+
+; (fn vim.lsp.util.open_floating_preview [contents syntax opts & rest]
+;   (tset opts :border ["╭" "─" "╮" "│" "╯" "─" "╰" "│"])
+;   (local contents [(unpack contents 2 (- (# contents) 1))])
+;   (open-floating-preview contents syntax opts rest))
 
 (fn setup-lsp []
   (let [lspconfig (require :lspconfig)
@@ -41,7 +49,8 @@
                                                                                 (luasnip.jump -1)
                                                                                 ($1)))})
                 :sources (cmp.config.sources [{:name "nvim_lsp"}
-                                              {:name "luasnip"}])})
+                                              {:name "luasnip"}
+                                              {:name "conjure"}])})
     (local capabilities (cmp-nvim-lsp.default_capabilities))
     (each [_ server (ipairs servers)]
       ((. lspconfig server.name :setup) (vim.tbl_extend :force
@@ -57,4 +66,5 @@
                  {1 "hrsh7th/nvim-cmp"}
                  {1 "hrsh7th/cmp-nvim-lsp"}
                  {1 "L3MON4D3/LuaSnip"}
-                 {1 "saadparwaiz1/cmp_luasnip"}]}]
+                 {1 "saadparwaiz1/cmp_luasnip"}
+                 {1 "PaterJason/cmp-conjure"}]}]
