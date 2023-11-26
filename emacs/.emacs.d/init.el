@@ -1,4 +1,3 @@
-(add-to-list 'image-types 'svg) ; remover após emacs 29 (setq scroll-step 1)
 (setq
  auto-save-default nil
  auto-window-vscroll nil
@@ -6,23 +5,14 @@
  completion-auto-help t
  create-lockfiles nil
  custom-file (expand-file-name "custom.el" user-emacs-directory)
+ default-input-method "portuguese-prefix"
  display-line-numbers-type 'relative
  eldoc-echo-area-use-multiline-p nil
  inhibit-startup-screen t
  make-backup-files nil
- org-agenda-files '("~/notes/agenda.org")
- org-confirm-babel-evaluate nil
- org-hide-emphasis-markers t
- org-return-follows-link t
- org-roam-directory "~/notes"
- org-src-tab-acts-natively t
  ring-bell-function (lambda ())
- default-input-method "portuguese-prefix"
  scroll-conservatively 10000
- shell-file-name "/run/current-system/sw/bin/bash"
  straight-use-package-by-default t
- ;; ido-everywhere t
- ;; ido-enable-flex-matching t
  word-wrap t)
 
 (setq-default
@@ -31,7 +21,7 @@
  truncate-lines t
  tab-width 2)
 
-;; (ido-mode 1)
+(windmove-default-keybindings)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (electric-pair-mode 1)
@@ -40,6 +30,8 @@
 (savehist-mode)
 (auto-revert-mode)
 (global-hl-line-mode)
+
+(global-set-key "ć" #'(lambda () (interactive (insert "ç"))))
 
 (load custom-file t)
 
@@ -58,111 +50,89 @@
 
 (straight-use-package 'use-package)
 
+(use-package benchmark-init
+	:demand t
+	:hook (after-init . benchmark-init/deactivate))
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(use-package evil
-  :init
-  (setq evil-kill-on-visual-paste nil)
-  (setq evil-search-module 'evil-search)
-  (setq evil-vplist-window-right t)
-  (setq evil-undo-system 'undo-redo)
-  (setq evil-want-keybinding nil))
-
-;; (use-package undo-fu)
-
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
-
-(use-package evil-surround
-  :after evil
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package magit)
+(use-package magit :defer t)
+(use-package org)
 
 (use-package flycheck
-  :init (global-flycheck-mode)
-	:custom (flycheck-display-errors-function nil))
+	:custom
+	(flycheck-display-errors-function nil))
 
-(use-package flycheck-eglot
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
 (use-package counsel)
+
 (use-package typescript-mode
+	:mode "\\.ts\\'"
 	:custom
 	(typescript-indent-level 2))
 
-(define-key evil-normal-state-map (kbd "<SPC>pf") 'projectile-find-file)
-(define-key evil-normal-state-map (kbd "<SPC>p/") 'projectile-ripgrep)
-
 (use-package ripgrep)
-(use-package haskell-mode)
-(use-package nix-mode)
-(use-package caml)
-(use-package nix-modeline)
-(use-package monkeytype)
-(use-package typst-mode)
+(use-package haskell-mode :mode "\\.hs\\'")
+(use-package nix-mode :mode "\\.nix\\'")
+(use-package nix-modeline :defer t)
+(use-package typst-mode :mode "\\.typ\\'")
 (use-package ob-typescript)
-(use-package tuareg)
-(use-package lua-mode)
-
-(setq org-babel-load-languages
-      '((haskell . t)
-	(typescript . t)
-	(lua . t)
-	(ocaml . t)
-	(ruby . t)))
-
+(use-package ob-restclient :straight (ob-restclient :type git :host github :repo "alf/ob-restclient.el"))
+(use-package tuareg :mode ("\\.ml\\'" . tuareg-mode))
+(use-package lua-mode :mode "\\.lua\\'")
 (use-package docker)
 (use-package docker-compose-mode)
 (use-package dockerfile-mode)
 
-(defun org-roam-node-extract
-    ()
-  (interactive)
-  (progn
-    (kill-region (point) (mark))
-    (org-roam-node-find)
-    (yank)))
+(defun org-roam-node-extract ()
+	"Extracts region to node."
+	(interactive)
+	(progn
+		(kill-region (point) (mark))
+		(org-roam-node-find)
+		(yank)))
 
-(use-package org-roam
-  :config
-  (org-roam-db-autosync-mode)
-  :bind
-  (("C-c n f" . org-roam-node-find)
-   ("C-c n i" . org-roam-node-insert)))
+(use-package
+	org
+	:custom (org-babel-load-languages
+					 '((haskell . t)
+						 (typescript . t)
+						 (lua . t)
+						 (restclient . t)
+						 (ocaml . t)
+						 (ruby . t)))
+	(org-agenda-files
+	 '("~notes/agenda.org"))
+	(org-confirm-babel-evaluate
+	 nil)
+	(org-hide-emphasis-markers t)
+	(org-return-follows-link t)
+	(org-src-tab-acts-natively t))
 
-(add-hook 'org-mode-hook (lambda () (local-set-key (kbd "C-c n x") #'org-roam-node-extract)))
-
-(use-package org)
+(use-package
+	org-roam
+	:after org
+	:config (org-roam-db-autosync-mode)
+	:custom (org-roam-directory "~/notes")
+	:bind (("C-c n f" . org-roam-node-find)
+				 ("C-c n i" . org-roam-node-insert)))
 
 (use-package ox-gfm)
-
-(with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 (use-package which-key
   :config
   (which-key-mode))
 
 (use-package osm
-  :bind ("C-c m" . osm-prefix-map) ;; Alternative: `osm-home'
-
+	:after org
+	:straight (osm :type git :host github :repo "minad/osm")
+  :bind ("C-c m" . osm-prefix-map)
   :custom
-  ;; Take a look at the customization group `osm' for more options.
-  (osm-server 'default) ;; Configure the tile server
-  (osm-copyright t)     ;; Display the copyright information
-
+  (osm-server 'default)
+  (osm-copyright t)
   :init
-  ;; Load Org link support
-  (with-eval-after-load 'org
-    (require 'osm-ol)))
+  (require 'osm-ol))
 
 (use-package vertico
-	:functions vertico-mode
 	:custom
 	(vertico-cycle t)
 	(vertico-count 5)
@@ -182,7 +152,6 @@
  		 (window-parameters (mode-line-format . none)))))
 
 (use-package marginalia
-	:functions marginalia-mode
   :init
   (marginalia-mode))
 
@@ -211,8 +180,6 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package eglot)
-
 (use-package doom-themes
   :config
 	(let ((hour (caddr (decode-time))))
@@ -221,6 +188,7 @@
 		 ((>= hour 17) (load-theme 'doom-gruvbox t))
 		 (t (load-theme 'doom-homage-white t)))))
 
+(require 'dom)
 (defun page-title (url)
 	"URL meh."
 	(interactive)
@@ -237,7 +205,8 @@
 	(let* ((url (read-string "URL: "))(title (page-title url)))
 		(org-insert-link nil url title)))
 
-(use-package org-roam-ui)
+(use-package org-roam-ui
+	:after org-roam)
 (use-package rg)
 (use-package sly)
 (use-package elm-mode)
@@ -245,11 +214,6 @@
 	:config
 	(direnv-mode))
 
-(add-hook 'elm-mode-hook (lambda ()
-													 (add-hook 'before-save-hook #'elm-format-buffer nil t)))
-
-(add-hook 'tuareg-mode-hook (lambda ()
-													 (add-hook 'before-save-hook #'eglot-format nil t)))
 
 
 (set-face-attribute 'org-level-1 nil :height 250)
@@ -265,22 +229,6 @@
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 (global-set-key (kbd "C-c C-c") 'compile)
 (global-set-key (kbd "C-c C-r") 'recompile)
-
-(defun my-ansi-color (&optional beg end)
-  "Interpret ANSI color esacape sequence by colorifying cotent.
-Operate on selected region on whole buffer."
-  (interactive
-   (if (use-region-p)
-       (list (region-beginning) (region-end))
-     (list (point-min) (point-max))))
-  (ansi-color-apply-on-region beg end))
-
-(ignore-errors
-  (require 'ansi-color)
-  (defun my-colorize-compilation-buffer ()
-    (when (eq major-mode 'compilation-mode)
-      (ansi-color-apply-on-region compilation-filter-start (point-max))))
-  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
 
 (use-package clang-format)
 (use-package steam
@@ -313,10 +261,77 @@ Operate on selected region on whole buffer."
 ;; 	:load-path "~/.emacs.d/lisp/moldable-emacs/"
 ;; 	:config
 ;; 	(me-setup-molds))
-(use-package calibredb
+(use-package lispy
 	:config
-	(setq calibredb-root-dir "/mnt/Arquivos/Mateus/Calibre")
-	(setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir)))
+	(add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1))))
 
-(use-package lispy)
 (use-package fennel-mode)
+(use-package
+	org-fragtog
+	:hook org)
+
+(setq org-format-latex-options
+			'(:foreground default
+										:background default
+										:scale 1.5
+										:html-foreground "Black"
+										:html-background "Transparent"
+										:html-scale 1.0
+										:matchers ("begin"
+															 "$1"
+															 "$"
+															 "$$"
+															 "\\("
+															 "\\[")))
+
+(use-package vterm)
+(use-package multiple-cursors)
+(use-package geiser-chez)
+
+(defun copy-line ()
+	"Kill current line."
+	(interactive)
+	(save-excursion
+		(beginning-of-line)
+		(set-mark-command nil)
+		(end-of-line)
+		(kill-ring-save
+		 (region-beginning)
+		 (region-end))))
+
+(defun join-path (path filename)
+	"Join PATH with FILENAME, adding a trailing slash in PATH if necessary."
+	(concat path (if (string-match-p "/$" path) "" "/") filename))
+
+(defun find-init-file ()
+	"Find user init.el."
+	(interactive)
+	(when (not (string-equal
+							(buffer-file-name)
+							(file-truename user-init-file)))
+		(find-file user-init-file)))
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(use-package which-key
+	:config (which-key-mode)
+	:custom
+	(which-key-idle-delay 0.3))
+
+(use-package ace-window
+	:bind
+	("M-o" . ace-window))
+
+(use-package flycheck-eglot)
+
+(use-package devdocs)
+
+(use-package dumb-jump)
+
+(use-package quickrun)
+
+(use-package org-ql)
+
+(use-package org-roam-ql :after org-roam)
+
+

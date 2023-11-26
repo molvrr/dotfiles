@@ -21,3 +21,5 @@ emacs/.emacs.d/history
 emacs/.emacs.d/ido.last
 emacs/.emacs.d/org-roam.db
 emacs/.emacs.d/recentf
+/emacs/.emacs.d/var/
+/emacs/.emacs.d/devdocs/
