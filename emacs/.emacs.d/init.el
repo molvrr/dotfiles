@@ -13,6 +13,7 @@
  ring-bell-function (lambda ())
  scroll-conservatively 10000
  straight-use-package-by-default t
+ initial-scratch-message nil
  word-wrap t)
 
 (setq-default
@@ -57,7 +58,12 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package magit :defer t)
-(use-package org)
+(use-package org
+	:custom-face
+	(org-document-title ((t (:height 300))))
+	(org-level-1 ((t (:height 250))))
+	(org-level-2 ((t (:height 150))))
+	(org-link ((t (:underline nil)))))
 
 (use-package flycheck
 	:custom
@@ -180,13 +186,12 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package doom-themes
-  :config
-	(let ((hour (caddr (decode-time))))
-		(cond
-		 ((< hour 6) (load-theme 'doom-gruvbox t))
-		 ((>= hour 17) (load-theme 'doom-gruvbox t))
-		 (t (load-theme 'doom-homage-white t)))))
+(use-package
+	doom-themes
+	:config (load-theme 'doom-xcode t)
+	:custom-face
+	(line-number ((t (:foreground "#9999aa" :bold nil :italic nil))))
+	(line-number-current-line ((t (:italic nil)))))
 
 (require 'dom)
 (defun page-title (url)
@@ -213,12 +218,6 @@
 (use-package direnv
 	:config
 	(direnv-mode))
-
-
-
-(set-face-attribute 'org-level-1 nil :height 250)
-(set-face-attribute 'org-level-2 nil :height 150)
-(set-face-attribute 'org-document-title nil :height 300)
 
 (use-package markdown-mode)
 (use-package dune)
@@ -334,4 +333,26 @@
 
 (use-package org-roam-ql :after org-roam)
 
+(use-package svg-tag-mode
+	:custom
+	(svg-tag-tags '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO")))))))
 
+(set-face-attribute 'link nil :underline nil)
+
+(use-package evil
+	:init
+	(setq evil-want-keybinding nil)
+	:config
+	(evil-mode 1)
+	:custom
+	(evil-undo-system 'undo-redo))
+
+(use-package evil-collection
+	:after evil
+	:config
+	(evil-collection-init))
+
+(use-package evil-surround
+	:after evil
+	:config
+	(global-evil-surround-mode 1))
