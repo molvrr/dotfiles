@@ -276,8 +276,8 @@
 ;; 	:config
 ;; 	(me-setup-molds))
 (use-package lispy
-	:config
-	(add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1))))
+	:hook
+	(emacs-lisp-mode . lispy-mode))
 
 (use-package fennel-mode)
 (use-package
