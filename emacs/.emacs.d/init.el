@@ -8,6 +8,7 @@
  default-input-method "portuguese-prefix"
  display-line-numbers-type 'relative
  eldoc-echo-area-use-multiline-p nil
+ shell-file-name "/run/current-system/sw/bin/bash"
  inhibit-startup-screen t
  make-backup-files nil
  ring-bell-function (lambda ())
@@ -65,7 +66,21 @@
 	(org-level-2 ((t (:height 150))))
 	(org-link ((t (:underline nil)))))
 
+(define-fringe-bitmap 'flyflyumpoucodemagomuitodeheroi (vector
+																												#b1111111
+																												#b1111111
+																												#b1111111
+																												#b1111111
+																												#b1111111
+																												#b1111111
+																												#b1111111
+																												#b1111111
+																												#b1111111))
+
 (use-package flycheck
+	:hook (eglot-managed-mode . flycheck-mode)
+	:config
+	(flycheck-redefine-standard-error-levels nil 'flyflyumpoucodemagomuitodeheroi)
 	:custom
 	(flycheck-display-errors-function nil))
 
@@ -321,7 +336,9 @@
 	:bind
 	("M-o" . ace-window))
 
-(use-package flycheck-eglot)
+(use-package eglot :hook (prog-mode . eglot-ensure))
+
+(use-package flycheck-eglot :hook (flycheck-mode . flycheck-eglot-mode))
 
 (use-package devdocs)
 
@@ -339,10 +356,27 @@
 
 (set-face-attribute 'link nil :underline nil)
 
+(defun lang-fmt ()
+	(interactive)
+	(if (use-region-p)
+			(eglot-format (region-beginning) (region-end))
+		(eglot-format)))
+
 (use-package evil
 	:init
 	(setq evil-want-keybinding nil)
 	:config
+	(evil-set-leader 'normal (kbd "SPC"))
+	(evil-define-key 'normal 'global (kbd "<leader>pf") 'projectile-find-file)
+	(evil-define-key 'normal 'global (kbd "<leader>p/") 'projectile-ripgrep)
+	(evil-define-key 'normal 'global (kbd "<leader>ps") 'projectile-switch-project)
+	(evil-define-key 'normal 'global (kbd "<leader>pc") 'projectile-compile-project)
+	(evil-define-key 'normal 'global (kbd "<leader>p!") 'projectile-run-shell-command-in-root)
+	(evil-define-key 'normal 'global (kbd "]d") 'flycheck-next-error)
+	(evil-define-key 'normal 'global (kbd "[d") 'flycheck-previous-error)
+	(evil-define-key 'normal 'global (kbd "<leader>g") 'magit)
+	(evil-define-key 'normal 'global (kbd "<leader>lf") 'lang-fmt)
+	(evil-define-key 'normal 'global (kbd "<leader>b") 'switch-to-buffer)
 	(evil-mode 1)
 	:custom
 	(evil-undo-system 'undo-redo))
@@ -356,3 +390,21 @@
 	:after evil
 	:config
 	(global-evil-surround-mode 1))
+
+(use-package projectile
+	:config
+	(projectile-mode 1)
+	:custom
+	(projectile-project-search-path '("~/projects/" "~/nixos" "~/playground")))
+
+(use-package git-timemachine)
+
+(use-package consult-gh)
+
+(use-package
+	koka-mode
+	:straight (koka-mode
+						 :type git
+						 :host github
+						 :repo "koka-lang/koka"
+						 :files ("support/emacs/koka-mode.el")))
