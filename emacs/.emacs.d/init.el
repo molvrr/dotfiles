@@ -5,6 +5,7 @@
  completion-auto-help t
  create-lockfiles nil
  custom-file (expand-file-name "custom.el" user-emacs-directory)
+ ;; debug-on-error t
  default-input-method "portuguese-prefix"
  display-line-numbers-type 'relative
  eldoc-echo-area-use-multiline-p nil
@@ -78,7 +79,6 @@
 																												#b1111111))
 
 (use-package flycheck
-	:hook (eglot-managed-mode . flycheck-mode)
 	:config
 	(flycheck-redefine-standard-error-levels nil 'flyflyumpoucodemagomuitodeheroi)
 	:custom
@@ -336,9 +336,9 @@
 	:bind
 	("M-o" . ace-window))
 
-(use-package eglot :hook (prog-mode . eglot-ensure))
+(use-package eglot :hook (tuareg-mode . eglot-ensure))
 
-(use-package flycheck-eglot :hook (flycheck-mode . flycheck-eglot-mode))
+(use-package flycheck-eglot)
 
 (use-package devdocs)
 
@@ -367,6 +367,8 @@
 	(setq evil-want-keybinding nil)
 	:config
 	(evil-set-leader 'normal (kbd "SPC"))
+	(evil-define-key 'normal 'global (kbd "<leader>i") 'find-init-file)
+	(evil-define-key 'normal 'global (kbd "<leader>nf") 'org-roam-node-find)
 	(evil-define-key 'normal 'global (kbd "<leader>pf") 'projectile-find-file)
 	(evil-define-key 'normal 'global (kbd "<leader>p/") 'projectile-ripgrep)
 	(evil-define-key 'normal 'global (kbd "<leader>ps") 'projectile-switch-project)
@@ -391,6 +393,11 @@
 	:config
 	(global-evil-surround-mode 1))
 
+(use-package
+	evil-commentary
+	:after evil
+	:config (evil-commentary-mode))
+
 (use-package projectile
 	:config
 	(projectile-mode 1)
@@ -408,3 +415,7 @@
 						 :host github
 						 :repo "koka-lang/koka"
 						 :files ("support/emacs/koka-mode.el")))
+
+(use-package xterm-color)
+
+(advice-add 'compilation-filter :around (lambda (f proc string) (funcall f proc (xterm-color-filter string))))
