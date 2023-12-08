@@ -20,4 +20,6 @@
              :external.exec {}
              :core.dirman {:config {:workspaces {:notes "~/notes-neorg"} :default_workspace :notes}}}}}
  {1 "gbprod/yanky.nvim" :opts {}}
- {1 "Olical/conjure"}]
+ {1 "Olical/conjure"}
+ {1 "ctrlpvim/ctrlp.vim"}
+ {1 "edgedb/edgedb-vim"}]

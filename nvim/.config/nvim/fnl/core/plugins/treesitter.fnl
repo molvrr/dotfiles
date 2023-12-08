@@ -12,5 +12,12 @@
                                    :files ["src/parser.c" "src/scanner.c"]
                                    :branch "main"}
                     :filetype :nu})
-              (vim.filetype.add {:extension {:nu :nu}})))
+
+(tset parser-config :roc {
+      :install_info {:url "https://github.com/faldor20/tree-sitter-roc" :files ["src/parser.c" "src/scanner.c"]}
+      })
+              (vim.filetype.add {:extension {:nu :nu}})
+              (vim.filetype.add {:extension {:roc :roc}})
+              (vim.filetype.add {:extension {:gren :elm}})
+              ))
   :build ":TSUpdate"}]

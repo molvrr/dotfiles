@@ -20,6 +20,7 @@
 (normal-map "<Leader>3" #(let [ui (require :harpoon.ui)] (ui.nav_file 3)))
 (normal-map "<Leader>4" #(let [ui (require :harpoon.ui)] (ui.nav_file 4)))
 (normal-map "<Leader>5" #(let [ui (require :harpoon.ui)] (ui.nav_file 5)))
+(normal-map "<Leader>x" ":Neorg exec cursor<CR>")
 
 (normal-map "<localleader>r" ":Neorg exec cursor<CR>")
 (normal-map "<C-n>" "<Plug>(YankyCycleForward)")

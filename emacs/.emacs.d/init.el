@@ -1,27 +1,33 @@
+;; -*- lexical-binding: t -*-
+
 (setq
+ ;; debug-on-error t
  auto-save-default nil
  auto-window-vscroll nil
  backup-inhibited t
  completion-auto-help t
  create-lockfiles nil
  custom-file (expand-file-name "custom.el" user-emacs-directory)
- ;; debug-on-error t
  default-input-method "portuguese-prefix"
+ dired-listing-switches "-alFh"
  display-line-numbers-type 'relative
  eldoc-echo-area-use-multiline-p nil
- shell-file-name "/run/current-system/sw/bin/bash"
+ fast-but-imprecise-scrolling t
  inhibit-startup-screen t
+ initial-scratch-message nil
  make-backup-files nil
  ring-bell-function (lambda ())
  scroll-conservatively 10000
+ shell-file-name "/run/current-system/sw/bin/bash"
  straight-use-package-by-default t
- initial-scratch-message nil
+ indent-line-function 'insert-tab
  word-wrap t)
 
 (setq-default
  display-line-numbers-width 3
  straight-use-package-by-default t
  truncate-lines t
+ indent-tabs-mode nil
  tab-width 2)
 
 (windmove-default-keybindings)
@@ -30,7 +36,8 @@
 (electric-pair-mode 1)
 (scroll-bar-mode 0)
 (global-display-line-numbers-mode)
-(savehist-mode)
+(savehist-mode 1)
+(save-place-mode 1)
 (auto-revert-mode)
 (global-hl-line-mode)
 
@@ -60,12 +67,12 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package magit :defer t)
-(use-package org
-	:custom-face
-	(org-document-title ((t (:height 300))))
-	(org-level-1 ((t (:height 250))))
-	(org-level-2 ((t (:height 150))))
-	(org-link ((t (:underline nil)))))
+(use-package org)
+	;; :custom-face
+	;; (org-document-title ((t (:height 300))))
+	;; (org-level-1 ((t (:height 250))))
+	;; (org-level-2 ((t (:height 150))))
+	;; (org-link ((t (:underline nil)))))
 
 (define-fringe-bitmap 'flyflyumpoucodemagomuitodeheroi (vector
 																												#b1111111
@@ -119,6 +126,7 @@
 						 (typescript . t)
 						 (lua . t)
 						 (restclient . t)
+             (C . t)
 						 (ocaml . t)
 						 (ruby . t)))
 	(org-agenda-files
@@ -177,10 +185,11 @@
   (marginalia-mode))
 
 (use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
- 	completion-category-defaults nil
- 	completion-category-overrides '((file (styles . (partial-completion))))))
+  :custom
+	(orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
+  (completion-styles '(orderless basic))
+ 	(completion-category-defaults nil)
+ 	(completion-category-overrides '((file (styles . (partial-completion))))))
 
 (use-package corfu
   :init
@@ -230,9 +239,6 @@
 (use-package rg)
 (use-package sly)
 (use-package elm-mode)
-(use-package direnv
-	:config
-	(direnv-mode))
 
 (use-package markdown-mode)
 (use-package dune)
@@ -249,11 +255,11 @@
 	:custom
 	(steam-username "molvr"))
 
-(use-package doom-modeline
-	:config
-	(doom-modeline-mode)
-	:custom
-	(doom-modeline-buffer-file-name-style 'relative-to-project))
+;; (use-package doom-modeline
+;; 	:config
+;; 	(doom-modeline-mode)
+;; 	:custom
+;; 	(doom-modeline-buffer-file-name-style 'relative-to-project))
 
 (use-package clojure-mode)
 (use-package cider)
@@ -282,7 +288,7 @@
 (use-package fennel-mode)
 (use-package
 	org-fragtog
-	:hook org)
+	:hook (org-mode . org-fragtog-mode))
 
 (setq org-format-latex-options
 			'(:foreground default
@@ -336,8 +342,6 @@
 	:bind
 	("M-o" . ace-window))
 
-(use-package eglot :hook (tuareg-mode . eglot-ensure))
-
 (use-package flycheck-eglot)
 
 (use-package devdocs)
@@ -362,26 +366,34 @@
 			(eglot-format (region-beginning) (region-end))
 		(eglot-format)))
 
-(use-package evil
-	:init
-	(setq evil-want-keybinding nil)
-	:config
-	(evil-set-leader 'normal (kbd "SPC"))
-	(evil-define-key 'normal 'global (kbd "<leader>i") 'find-init-file)
-	(evil-define-key 'normal 'global (kbd "<leader>nf") 'org-roam-node-find)
-	(evil-define-key 'normal 'global (kbd "<leader>pf") 'projectile-find-file)
-	(evil-define-key 'normal 'global (kbd "<leader>p/") 'projectile-ripgrep)
-	(evil-define-key 'normal 'global (kbd "<leader>ps") 'projectile-switch-project)
-	(evil-define-key 'normal 'global (kbd "<leader>pc") 'projectile-compile-project)
-	(evil-define-key 'normal 'global (kbd "<leader>p!") 'projectile-run-shell-command-in-root)
-	(evil-define-key 'normal 'global (kbd "]d") 'flycheck-next-error)
-	(evil-define-key 'normal 'global (kbd "[d") 'flycheck-previous-error)
-	(evil-define-key 'normal 'global (kbd "<leader>g") 'magit)
-	(evil-define-key 'normal 'global (kbd "<leader>lf") 'lang-fmt)
-	(evil-define-key 'normal 'global (kbd "<leader>b") 'switch-to-buffer)
-	(evil-mode 1)
-	:custom
-	(evil-undo-system 'undo-redo))
+;; (use-package evil
+;; 	:init
+;; 	(setq evil-want-keybinding nil)
+;; 	:config
+;; 	(evil-set-leader 'normal (kbd "SPC"))
+;; 	(evil-define-key 'normal 'global (kbd "<leader>i") 'find-init-file)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>nf") 'org-roam-node-find)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>pf") 'projectile-find-file)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>p/") 'projectile-ripgrep)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>ps") 'projectile-switch-project)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>pc") 'projectile-compile-project)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>p!") 'projectile-run-shell-command-in-root)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>pb") 'projectile-switch-to-buffer)
+;; 	(evil-define-key 'normal 'global (kbd "]d") 'flycheck-next-error)
+;; 	(evil-define-key 'normal 'global (kbd "[d") 'flycheck-previous-error)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>g") 'magit)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>lf") 'lang-fmt)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>la") 'eglot-code-actions)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>b") 'switch-to-buffer)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>cb") 'compilation-goto-in-progress-buffer)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>cr") 'recompile)
+;; 	(evil-define-key 'normal 'global (kbd "<leader>cc") 'compile)
+;; 	(evil-set-initial-state 'pueue-mode 'emacs)
+;; 	(evil-mode 1)
+;; 	:custom
+;; 	(evil-vsplit-window-right t)
+;; 	(evil-split-window-below t)
+;; 	(evil-undo-system 'undo-redo))
 
 (use-package evil-collection
 	:after evil
@@ -419,3 +431,20 @@
 (use-package xterm-color)
 
 (advice-add 'compilation-filter :around (lambda (f proc string) (funcall f proc (xterm-color-filter string))))
+
+(use-package direnv)
+
+(use-package flycheck-projectile :after flycheck projectile)
+
+(defun kill-other-buffers ()
+	"Keep only the current buffer open, killing every other buffer."
+	(interactive)
+	(mapc
+	 'kill-buffer
+	 (remq (current-buffer)
+				 (buffer-list))))
+
+(use-package kotlin-mode)
+(use-package pueue :straight (pueue :type git :host github :repo "xFA25E/pueue"))
+(use-package zig-mode)
+(use-package unison-mode)

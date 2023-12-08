@@ -56,6 +56,7 @@ local function _10_()
   return ui.nav_file(5)
 end
 normal_map("<Leader>5", _10_)
+normal_map("<Leader>x", ":Neorg exec cursor<CR>")
 normal_map("<localleader>r", ":Neorg exec cursor<CR>")
 normal_map("<C-n>", "<Plug>(YankyCycleForward)")
 normal_map("<C-p>", "<Plug>(YankyCycleBackward)")

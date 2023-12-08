@@ -23,3 +23,6 @@ emacs/.emacs.d/org-roam.db
 emacs/.emacs.d/recentf
 /emacs/.emacs.d/var/
 /emacs/.emacs.d/devdocs/
+emacs/.emacs.d/projectile-bookmarks.eld
+emacs/.emacs.d/places
+emacs/.emacs.d/projects

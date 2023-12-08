@@ -35,3 +35,7 @@
 (each [key value (pairs opts)] (tset vim.opt key value))
 
 (each [key value (pairs globals)] (tset vim.g key value))
+
+(vim.api.nvim_create_autocmd [:BufEnter] { :pattern ["*.kk"] :callback #(tset vim.o :ft :koka) })
+(vim.api.nvim_create_autocmd [:BufEnter] { :pattern ["*.roc"] :callback #(tset vim.o :ft :roc) })
+(vim.api.nvim_create_autocmd [:BufEnter] { :pattern ["*.mlx"] :callback #(tset vim.o :ft :ocaml) })

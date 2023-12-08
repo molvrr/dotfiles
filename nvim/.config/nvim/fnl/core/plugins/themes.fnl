@@ -1,4 +1,4 @@
-[{1 "ellisonleao/gruvbox.nvim" :opts {:transparent_mode false :bold false}}
+[{1 "ellisonleao/gruvbox.nvim" :opts {:transparent_mode true :bold false}}
  {1 "folke/noice.nvim"
   :enabled false
   :dependencies ["MunifTanjim/nui.nvim"]
