@@ -3,7 +3,9 @@
              (telescope.setup)
              (telescope.load_extension :fzf)
              (telescope.load_extension :live_grep_args)
-             (telescope.load_extension :yank_history))
+             (telescope.load_extension :yank_history)
+             (telescope.load_extension :projects))
   :dependencies [{1 :nvim-telescope/telescope-fzf-native.nvim :build :make}
                  {1 :nvim-lua/plenary.nvim}
-                 {1 :nvim-telescope/telescope-live-grep-args.nvim}]}]
+                 {1 :nvim-telescope/telescope-live-grep-args.nvim}
+                 {1 :ahmedkhalf/project.nvim :config #((. (require :project_nvim) :setup) {})}]}]

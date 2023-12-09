@@ -9,6 +9,7 @@
   (let [opts (or ?opts {:silent true})]
     (vim.keymap.set :n lhs rhs fun opts)))
 
+(normal-map "<Leader>pf" #((. (. (. (require "telescope") :extensions) :projects) :projects) {}))
 (normal-map "<Leader>f" #(find-files (themes.get_dropdown {:previewer false})))
 (normal-map "<Leader>/" #(live-grep (themes.get_dropdown {:previewer false})))
 (normal-map "<Leader>h" #(help-tags (themes.get_dropdown {:previewer false})))
@@ -20,6 +21,8 @@
 (normal-map "<Leader>3" #(let [ui (require :harpoon.ui)] (ui.nav_file 3)))
 (normal-map "<Leader>4" #(let [ui (require :harpoon.ui)] (ui.nav_file 4)))
 (normal-map "<Leader>5" #(let [ui (require :harpoon.ui)] (ui.nav_file 5)))
+(normal-map "<Leader>g" #(let [git (require :neogit)] (git.open {:kind "replace"})))
+(normal-map "<Leader>e" #(let [oil (require :oil)] (oil.open_float)))
 (normal-map "<Leader>x" ":Neorg exec cursor<CR>")
 
 (normal-map "<localleader>r" ":Neorg exec cursor<CR>")
