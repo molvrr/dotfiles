@@ -11,7 +11,6 @@
              :relativenumber true
              :shell "bash"
              :shiftwidth 2
-             :signcolumn :number
              :smartcase true
              :smartindent true
              :spell false
@@ -24,18 +23,28 @@
              :updatetime 700
              :wrap false})
 
-(vim.diagnostic.config {:virtual_text true})
 
 (local globals {:mapleader " "
                 :maplocalleader "\\"
-                :conjure#filetypes ["clojure" "fennel" "janet" "hy" "julia" "racket" "scheme" "lua" "lisp" "python" "sql"]
+                :conjure#filetypes ["fennel" "janet" "hy" "julia" "racket" "scheme" "lua" "lisp" "python" "sql"]
                 :conjure#client#scheme#stdio#command "petite"
-                :conjure#client#scheme#stdio#prompt_pattern "> $?"})
+                :conjure#client#scheme#stdio#prompt_pattern "> $?"
+                :clipboard {
+                  :name "xsel_override"
+                  :copy {:+ "xsel --input --clipboard" :* "xsel --input --primary"}
+                  :paste {:+ "xsel --output --clipboard" :* "xsel --output --primary"}
+                  :cache_enabled 1
+                }
+                :zig_fmt_autosave false})
 
+(local extensions {:koka "*.kk"
+                   :roc "*.roc"
+                   :ocaml "*.mlx"})
+
+(vim.diagnostic.config {:virtual_text true})
 (each [key value (pairs opts)] (tset vim.opt key value))
-
 (each [key value (pairs globals)] (tset vim.g key value))
-
-(vim.api.nvim_create_autocmd [:BufEnter] { :pattern ["*.kk"] :callback #(tset vim.o :ft :koka) })
-(vim.api.nvim_create_autocmd [:BufEnter] { :pattern ["*.roc"] :callback #(tset vim.o :ft :roc) })
-(vim.api.nvim_create_autocmd [:BufEnter] { :pattern ["*.mlx"] :callback #(tset vim.o :ft :ocaml) })
+(each [filetype extension (pairs extensions)]
+ (vim.api.nvim_create_autocmd [:BufEnter]
+                              {:pattern [extension]
+                               :callback #(tset vim.o :ft filetype)}))

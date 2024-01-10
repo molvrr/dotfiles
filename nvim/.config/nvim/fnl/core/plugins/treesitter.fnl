@@ -1,5 +1,5 @@
 [{1 "nvim-treesitter/nvim-treesitter"
-  :dependencies [{1 "nvim-treesitter/playground"}]
+  :dependencies [{1 "nvim-treesitter/playground"} {1 "danielo515/nvim-treesitter-reason"}]
   :config (fn [_opts]
             (let [cfgs (require :nvim-treesitter.configs)
                   parser-config ((. (require :nvim-treesitter.parsers) :get_parser_configs))]

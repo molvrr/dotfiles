@@ -9,4 +9,4 @@ local function _1_(_opts)
   vim.filetype.add({extension = {roc = "roc"}})
   return vim.filetype.add({extension = {gren = "elm"}})
 end
-return {{"nvim-treesitter/nvim-treesitter", dependencies = {{"nvim-treesitter/playground"}}, config = _1_, build = ":TSUpdate"}}
+return {{"nvim-treesitter/nvim-treesitter", dependencies = {{"nvim-treesitter/playground"}, {"danielo515/nvim-treesitter-reason"}}, config = _1_, build = ":TSUpdate"}}

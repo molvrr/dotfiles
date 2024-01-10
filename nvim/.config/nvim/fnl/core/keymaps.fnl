@@ -13,17 +13,18 @@
 (normal-map "<Leader>f" #(find-files (themes.get_dropdown {:previewer false})))
 (normal-map "<Leader>/" #(live-grep (themes.get_dropdown {:previewer false})))
 (normal-map "<Leader>h" #(help-tags (themes.get_dropdown {:previewer false})))
-(normal-map "<Leader>a" #(let [mark (require :harpoon.mark)] (mark.add_file)))
 
-(normal-map "<C-e>"     #(let [ui (require :harpoon.ui)] (ui.toggle_quick_menu)))
-(normal-map "<Leader>1" #(let [ui (require :harpoon.ui)] (ui.nav_file 1)))
-(normal-map "<Leader>2" #(let [ui (require :harpoon.ui)] (ui.nav_file 2)))
-(normal-map "<Leader>3" #(let [ui (require :harpoon.ui)] (ui.nav_file 3)))
-(normal-map "<Leader>4" #(let [ui (require :harpoon.ui)] (ui.nav_file 4)))
-(normal-map "<Leader>5" #(let [ui (require :harpoon.ui)] (ui.nav_file 5)))
 (normal-map "<Leader>g" #(let [git (require :neogit)] (git.open {:kind "replace"})))
 (normal-map "<Leader>e" #(let [oil (require :oil)] (oil.open_float)))
 (normal-map "<Leader>x" ":Neorg exec cursor<CR>")
+
+(let [harpoon (require :harpoon)]
+  (normal-map "<Leader>a" #(: (: harpoon :list) :append))
+  (normal-map "<C-e>" #(: (. harpoon :ui) :toggle_quick_menu (: harpoon :list)))
+  (normal-map "<Leader>1" #(: (: harpoon :list) :select 1))
+  (normal-map "<Leader>2" #(: (: harpoon :list) :select 2))
+  (normal-map "<Leader>3" #(: (: harpoon :list) :select 3))
+  (normal-map "<Leader>4" #(: (: harpoon :list) :select 4)))
 
 (normal-map "<localleader>r" ":Neorg exec cursor<CR>")
 (normal-map "<C-n>" "<Plug>(YankyCycleForward)")
@@ -33,3 +34,10 @@
 (vim.keymap.set [:n :x] "P" "<Plug>(YankyPutBefore)")
 (vim.keymap.set [:n :x] "gp" "<Plug>(YankyGPutAfter)")
 (vim.keymap.set [:n :x] "gP" "<Plug>(YankyGPutBefore)")
+
+(let [pulapula (require "pulapula")]
+  (normal-map "<C-h>" pulapula.move_left)
+  (normal-map "<C-l>" pulapula.move_right)
+  (normal-map "<C-j>" pulapula.move_down)
+  (normal-map "<C-k>" pulapula.move_up)
+  (normal-map "<C-w>o" pulapula.maximize))
