@@ -29,12 +29,15 @@
                 :conjure#filetypes ["fennel" "janet" "hy" "julia" "racket" "scheme" "lua" "lisp" "python" "sql"]
                 :conjure#client#scheme#stdio#command "petite"
                 :conjure#client#scheme#stdio#prompt_pattern "> $?"
-                :clipboard {
-                  :name "xsel_override"
-                  :copy {:+ "xsel --input --clipboard" :* "xsel --input --primary"}
-                  :paste {:+ "xsel --output --clipboard" :* "xsel --output --primary"}
-                  :cache_enabled 1
-                }
+                :omni_sql_no_default_maps true
+                :clipboard (match (os.getenv "XDG_SESSION_DESKTOP")
+                           "Hyprland" nil
+                            _ {
+                             :name "xsel_override"
+                             :copy {:+ "xsel --input --clipboard" :* "xsel --input --primary"}
+                             :paste {:+ "xsel --output --clipboard" :* "xsel --output --primary"}
+                             :cache_enabled 1
+                             })
                 :zig_fmt_autosave false})
 
 (local extensions {:koka "*.kk"

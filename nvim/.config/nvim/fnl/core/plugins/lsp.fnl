@@ -1,12 +1,13 @@
 ;; List of servers
 (local servers [{:name :rust_analyzer :opts {}}
-                {:name :ocamllsp :opts {}}
+                {:name :ocamllsp :opts {:get_language_id (fn [_ ftype] ftype)}}
                 {:name :nushell :opts {}}
                 {:name :elmls :opts {}}
                 {:name :pylsp :opts {}}
                 {:name :tsserver :opts {}}
                 {:name :hls :opts {}}
                 {:name :dartls :opts {}}
+                {:name :phpactor :opts {}}
                 {:name :roc :opts {}}
                 {:name :elixirls :opts {:cmd ["elixir-ls"]}}
                 {:name :gopls :opts {}}
@@ -20,9 +21,9 @@
 
 (fn on_attach [client bufnr]
 
-  (if (or (not (= vim.o.ft :unison)) (not (= vim.o.ft :ocaml)))
-      (vim.api.nvim_create_autocmd [:BufWritePre]
-                                   {:buffer bufnr :callback #(vim.lsp.buf.format)}))
+  ; (if (or (not (= vim.o.ft :unison)) (not (= vim.o.ft :ocaml)))
+  ;     (vim.api.nvim_create_autocmd [:BufWritePre]
+  ;                                  {:buffer bufnr :callback #(vim.lsp.buf.format)}))
 
   (normal-map "gd" vim.lsp.buf.definition)
   (normal-map "<F2>" vim.lsp.buf.rename)
