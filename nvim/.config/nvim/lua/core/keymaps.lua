@@ -11,6 +11,26 @@ local normal_map = function(lhs, rhs, fun, opts)
   vim.keymap.set('n', lhs, rhs, fun, opts)
 end
 
-normal_map("<Leader>f", function() find_files(themes.get_dropdown {previewer = false}) end)
-normal_map("<Leader>/", function() live_grep(themes.get_dropdown {previewer = false}) end)
-normal_map("<Leader>h", function() help_tags(themes.get_dropdown {previewer = false}) end)
+vim.keymap.set("n", "<Leader>f", function() find_files(themes.get_dropdown {previewer = false}) end)
+vim.keymap.set("n", "<Leader>/", function() live_grep(themes.get_dropdown {previewer = false}) end)
+vim.keymap.set("n", "<Leader>h", function() help_tags(themes.get_dropdown {previewer = false}) end)
+vim.keymap.set("n", "<Leader>e", function() require('oil').open_float() end)
+
+vim.keymap.set("n", "<C-e>", function()
+  local harpoon = require('harpoon')
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end)
+
+vim.keymap.set("n", "<Leader>a", function()
+  local harpoon = require('harpoon')
+  harpoon:list():append()
+end)
+
+for _, i in ipairs({1, 2, 3, 4, 5}) do
+  vim.keymap.set("n", "<Leader>" .. tostring(i), function()
+    local harpoon = require('harpoon')
+    harpoon:list():select(i)
+  end)
+end
+
+vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("ssr").open() end)

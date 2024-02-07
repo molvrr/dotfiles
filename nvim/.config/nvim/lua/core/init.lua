@@ -2,7 +2,7 @@ local opts = {
   autoindent = true,
   backup = false,
   clipboard = "unnamedplus",
-  completeopt = "menuone,noselect",
+  completeopt = "menu,menuone,noselect",
   expandtab = true,
   fillchars = "eob: ",
   hlsearch = false,
@@ -41,7 +41,7 @@ local extensions = {
   ocaml = '*.mlx'
 }
 
-vim.diagnostic.config { virtual_text = true }
+vim.diagnostic.config { virtual_text = false }
 
 for key, value in pairs(opts) do
   vim.opt[key] = value

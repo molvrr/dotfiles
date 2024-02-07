@@ -9,7 +9,10 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        mc/mark-next-lines
         multiple-cursors-mode
+        org-end-of-line
+        org-self-insert-command
         special-digit-argument
         special-end-of-defun
         special-evil-collection-lispy-delete-then-next-sexp

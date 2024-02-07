@@ -3,7 +3,16 @@ return {
   {"echasnovski/mini.surround", config = function() return (require("mini.surround")).setup() end},
   {"julienvincent/nvim-paredit", opts = {use_default_keys = true}},
   {"julienvincent/nvim-paredit-fennel", opts = {}, ft = {"fennel"}, dependencies = {{"julienvincent/nvim-paredit"}}},
-  {"ThePrimeAgen/harpoon", branch = "harpoon2", dependencies = {{"nvim-lua/plenary.nvim"}}, config = function() local harpoon = require("harpoon") return harpoon:setup() end },
+  {
+    "ThePrimeAgen/harpoon", branch = "harpoon2", dependencies = {{"nvim-lua/plenary.nvim"}}, config = function()
+      local harpoon = require("harpoon")
+      return harpoon:setup({
+        settings = {
+          save_on_toggle = true
+        }
+      })
+    end
+  },
   {"numToStr/Comment.nvim", opts = {}},
   {"stevearc/dressing.nvim", opts = {}},
   {"cshuaimin/ssr.nvim"},
